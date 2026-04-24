@@ -4,6 +4,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+input, textarea, select {
+  font-size: 16px;
+}
+
 @keyframes nickSlide {
   0%   { background-position: 0% center; }
   100% { background-position: 200% center; }
