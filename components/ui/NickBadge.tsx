@@ -72,7 +72,7 @@ export function TierProgress({ xp }: { xp: number }) {
   const current = XP_TIERS[currentIdx];
   if (!next) {
     return (
-      <p className="text-[10px] font-black uppercase tracking-widest text-emerald-600">
+      <p className="text-[10px] font-black uppercase tracking-widest text-emerald-800">
         Osiągnąłeś maksymalny tier — Legenda!
       </p>
     );

@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import {
-  BookOpen, Lock, Fish, ArrowLeft,
+  FishingHook, Lock, Fish, ArrowLeft,
   MapPin, Clock, Sparkles, Camera, List, Hourglass, ImageOff,
 } from 'lucide-react';
 import SectionHeader from '@/components/ui/SectionHeader';
@@ -64,15 +64,15 @@ export default function FishDexTab({ myCatches, selectedSpecies, onSelectSpecies
   return (
     <div className="space-y-8 pb-10">
       <SectionHeader
-        icon={BookOpen}
-        iconBg="bg-emerald-600"
+        icon={FishingHook}
+        iconBg="bg-emerald-800"
         iconColor="text-white"
         title="Rejestr Połowów"
         subtitle="Atlas Kolekcjonera"
       >
         <div className="flex items-center gap-3">
           <div className="text-right">
-            <p className="text-2xl font-black text-emerald-600 leading-none">
+            <p className="text-2xl font-black text-emerald-800 leading-none">
               {discovered}<span className="text-slate-300">/{total}</span>
             </p>
             <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-0.5">odkrytych</p>
@@ -107,14 +107,14 @@ export default function FishDexTab({ myCatches, selectedSpecies, onSelectSpecies
               key={fish.nazwa}
               onClick={() => isDiscovered && onSelectSpecies(fish.nazwa)}
               disabled={!isDiscovered}
-              className={`group rounded-2xl border-2 overflow-hidden transition-all duration-200 h-full flex flex-col text-left ${
+              className={`group rounded-4xl border-2 overflow-hidden transition-all duration-200 h-full flex flex-col text-left ${
                 isDiscovered
                   ? caught.medal === 'gold'
                     ? 'border-slate-300 hover:-translate-y-0.5 cursor-pointer'
                     : caught.medal === 'silver'
-                    ? 'border-slate-200   hover:-translate-y-0.5 cursor-pointer'
-                    : 'border-slate-200 hover:-translate-y-0.5 cursor-pointer'
-                  : 'border-slate-200 opacity-55 grayscale cursor-default'
+                    ? 'border-slate-100   hover:-translate-y-0.5 cursor-pointer'
+                    : 'border-slate-100 hover:-translate-y-0.5 cursor-pointer'
+                  : 'border-slate-100 opacity-55 grayscale cursor-default'
               }`}
             >
               <div className={`p-4 md:p-8 flex flex-col gap-4 flex-1 ${
@@ -128,6 +128,7 @@ export default function FishDexTab({ myCatches, selectedSpecies, onSelectSpecies
                       className="w-16 h-16 relative overflow-hidden rounded-xl flex items-center justify-center shrink-0"
                       style={{ backgroundColor: `${fish.color}18` }}
                     >
+                      {isDiscovered? 
                       <Image
                         src={`/${fish.icon}`}
                         alt={fish.nazwa}
@@ -135,6 +136,8 @@ export default function FishDexTab({ myCatches, selectedSpecies, onSelectSpecies
                         className="object-contain bg-white"
                         sizes="48px"
                       />
+                       : <ImageOff size={24} className="text-slate-300" />
+                      }
                     </div>
                     <div>
                       <h3 className={`font-black ${isDiscovered ? 'text-slate-900' : 'text-slate-300'} uppercase tracking-tight text-lg leading-tight`}>
@@ -157,21 +160,20 @@ export default function FishDexTab({ myCatches, selectedSpecies, onSelectSpecies
 
                 {isDiscovered ? (
                   <>
-                    <p className="text-[14px] mb-2 leading-relaxed line-clamp-2">{fish.opis}</p>
                     <div className="grid grid-cols-3 gap-1.5">
                       {[
-                        { label: 'Rekord', value: `${caught.waga}kg`, color: 'text-emerald-600' },
+                        { label: 'Rekord', value: `${caught.waga}kg`, color: 'text-emerald-800' },
                         { label: 'Sztuk', value: String(caught.count), color: 'text-slate-800' },
                         { label: 'Max XP', value: String(Math.round(fish.progZloto * fish.xpPerKg)), color: 'text-slate-800' },
                       ].map(({ label, value, color }) => (
-                        <div key={label} className="bg-slate-50 rounded-xl px-2 py-4 border border-slate-200 text-center">
+                        <div key={label} className="bg-slate-50 rounded-xl px-2 py-2 md:py-4 border border-slate-100 text-center">
                           <p className="text-[9px] text-slate-400 uppercase tracking-widest mb-1">{label}</p>
                           <p className={`text-sm font-black leading-none ${color}`}>{value}</p>
                         </div>
                       ))}
                     </div>
 
-                    <span className="mt-4 bg-black text-white text-center font-black text-base py-4 px-10 rounded-2xl active:scale-95 transition-all">Zobacz szczegóły</span>
+                    <span className="mt-2 bg-slate-900 text-white text-center font-black text-base py-3 px-10 rounded-xl active:scale-95 transition-all">Zobacz szczegóły</span>
                   </>
                 ) : (
                   <div className="flex-1 flex flex-col items-center justify-center py-3 gap-2">
@@ -227,7 +229,7 @@ function AllCatchesView({ myCatches, onBack }: { myCatches: FishCatch[]; onBack:
             { label: 'Sztuk', value: String(sumaSztuk), color: 'text-slate-800' },
             { label: 'Rekord', value: najciezszaRyba ? `${najciezszaRyba.waga.toFixed(2)} kg` : '—', color: 'text-slate-800' },
           ].map(({ label, value, color }) => (
-            <div key={label} className="bg-white rounded-xl p-5 border border-slate-200">
+            <div key={label} className="bg-white rounded-xl p-5 border border-slate-100">
               <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-1">{label}</p>
               <p className={`text-xl font-black leading-none ${color}`}>{value}</p>
             </div>
@@ -235,7 +237,7 @@ function AllCatchesView({ myCatches, onBack }: { myCatches: FishCatch[]; onBack:
         </div>
 
       {sorted.length === 0 ? (
-        <div className="py-16 text-center bg-white rounded-2xl border-2 border-dashed border-slate-200">
+        <div className="py-16 text-center bg-white rounded-4xl border-2 border-dashed border-slate-100">
           <Fish size={36} className="text-slate-200 mx-auto mb-3" />
           <p className="text-slate-400 font-bold text-sm">Brak połowów.</p>
         </div>
@@ -246,7 +248,7 @@ function AllCatchesView({ myCatches, onBack }: { myCatches: FishCatch[]; onBack:
             return (
               <div
                 key={c.id}
-                className={`bg-white rounded-2xl border-2 overflow-hidden flex flex-col border-slate-200`}
+                className={`bg-white rounded-4xl border-2 overflow-hidden flex flex-col border-slate-100`}
               >
                 <div className="aspect-video bg-slate-100 relative overflow-hidden">
                   {c.photo ? (
@@ -267,7 +269,7 @@ function AllCatchesView({ myCatches, onBack }: { myCatches: FishCatch[]; onBack:
                     </div>
                   )}
                   {idx === 0 && (
-                    <div className="absolute top-2 right-2 bg-emerald-600 text-white text-[8px] font-black px-2 py-1 rounded-lg uppercase tracking-widest">
+                    <div className="absolute top-2 right-2 bg-emerald-800 text-white text-[8px] font-black px-2 py-1 rounded-lg uppercase tracking-widest">
                       Rekord
                     </div>
                   )}
@@ -365,12 +367,12 @@ function SpeciesDetail({
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
-            { label: 'Życiówka', value: best ? `${best.waga} kg` : '—', color: 'text-emerald-600' },
+            { label: 'Życiówka', value: best ? `${best.waga} kg` : '—', color: 'text-emerald-800' },
             { label: 'Sztuk', value: String(speciesCatches.length), color: 'text-slate-800' },
             { label: 'XP zdobyte', value: String(totalXp), color: 'text-slate-800' },
             { label: 'Max XP', value: String(Math.round(fishDef.progZloto * fishDef.xpPerKg)), color: 'text-slate-800' },
           ].map(({ label, value, color }) => (
-            <div key={label} className="bg-white rounded-xl p-5 border border-slate-200">
+            <div key={label} className="bg-white rounded-xl p-5 border border-slate-100">
               <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-1">{label}</p>
               <p className={`text-xl font-black leading-none ${color}`}>{value}</p>
             </div>
@@ -385,7 +387,7 @@ function SpeciesDetail({
         </div>
 
         {speciesCatches.length === 0 ? (
-          <div className="py-14 text-center bg-white rounded-2xl border-2 border-dashed border-slate-200">
+          <div className="py-14 text-center bg-white rounded-4xl border-2 border-dashed border-slate-100">
             <Fish size={32} className="text-slate-200 mx-auto mb-3" />
             <p className="text-slate-400 font-bold text-sm">Nie złowiłeś jeszcze tego gatunku.</p>
           </div>
@@ -396,7 +398,7 @@ function SpeciesDetail({
               return (
                 <div
                   key={c.id}
-                  className={`bg-white rounded-2xl border-2 overflow-hidden flex flex-col border-slate-200`}
+                  className={`bg-white rounded-4xl border-2 overflow-hidden flex flex-col border-slate-100`}
                 >
                   <div className="aspect-video bg-slate-100 relative overflow-hidden">
                     {c.photo ? (
@@ -417,7 +419,7 @@ function SpeciesDetail({
                       </div>
                     )}
                     {idx === 0 && (
-                      <div className="absolute top-2 right-2 bg-emerald-600 text-white text-[8px] font-black px-2 py-1 rounded-lg uppercase tracking-widest">
+                      <div className="absolute top-2 right-2 bg-emerald-800 text-white text-[8px] font-black px-2 py-1 rounded-lg uppercase tracking-widest">
                         Rekord
                       </div>
                     )}

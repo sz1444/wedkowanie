@@ -44,12 +44,12 @@ export default function ReactionBar({ catch_: c, userId, onReact }: ReactionBarP
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-bold border transition-all active:scale-95 disabled:opacity-60 ${
               isMyReaction
                 ? 'bg-emerald-100 border-emerald-400 text-emerald-700 shadow-sm'
-                : 'bg-white border-slate-200 hover:bg-emerald-50 hover:border-emerald-200 text-slate-600'
+                : 'bg-white border-slate-100 hover:bg-emerald-50 hover:border-emerald-200 text-slate-600'
             }`}
           >
             <span>{emoji}</span>
             {count > 0 && (
-              <span className={`text-xs ${isMyReaction ? 'text-emerald-600' : 'text-slate-400'}`}>
+              <span className={`text-xs ${isMyReaction ? 'text-emerald-800' : 'text-slate-400'}`}>
                 {count}
               </span>
             )}

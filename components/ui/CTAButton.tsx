@@ -12,7 +12,7 @@ interface CTAButtonProps {
 
 export default function CTAButton({ icon: Icon, title, subtitle, onClick, href }: CTAButtonProps) {
   const inner = (
-    <div className="w-full flex items-center justify-between p-5 py-8 cursor-pointer bg-slate-900 hover:bg-emerald-900 rounded-2xl text-white transition-all group">
+    <div className="w-full flex items-center justify-between p-5 py-8 cursor-pointer bg-slate-900 hover:bg-emerald-900 rounded-4xl text-white transition-all group">
       <div className="flex items-center gap-4">
         <div className="p-2.5 bg-white/10 rounded-xl text-emerald-400 shrink-0">
           <Icon size={20} />

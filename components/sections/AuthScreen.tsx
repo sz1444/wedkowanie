@@ -42,11 +42,11 @@ export default function AuthScreen() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 px-4">
       <div className="w-full max-w-md bg-white rounded-[3rem] p-12 shadow-2xl border border-slate-100">
         <div className="flex items-center space-x-3 mb-12">
-          <div className="p-2.5 bg-emerald-600 rounded-xl text-white shadow-lg shadow-emerald-200">
+          <div className="p-2.5 bg-emerald-800 rounded-xl text-white shadow-lg shadow-emerald-200">
             <Zap size={24} />
           </div>
           <h1 className="text-2xl font-black tracking-tighter text-slate-800 uppercase">
-            Fish<span className="text-emerald-600">Rank</span>
+            Fish<span className="text-emerald-800">Rank</span>
           </h1>
         </div>
 
@@ -64,7 +64,7 @@ export default function AuthScreen() {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-6 py-4 bg-slate-50 rounded-2xl font-bold text-slate-800 border-2 border-transparent focus:border-emerald-500 focus:bg-white outline-none transition-all"
+            className="w-full px-6 py-4 bg-slate-50 rounded-4xl font-bold text-slate-800 border-2 border-transparent focus:border-emerald-500 focus:bg-white outline-none transition-all"
           />
           <input
             type="password"
@@ -72,7 +72,7 @@ export default function AuthScreen() {
             placeholder="Hasło"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-6 py-4 bg-slate-50 rounded-2xl font-bold text-slate-800 border-2 border-transparent focus:border-emerald-500 focus:bg-white outline-none transition-all"
+            className="w-full px-6 py-4 bg-slate-50 rounded-4xl font-bold text-slate-800 border-2 border-transparent focus:border-emerald-500 focus:bg-white outline-none transition-all"
           />
 
           {error && (
@@ -82,7 +82,7 @@ export default function AuthScreen() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full py-4 bg-emerald-600 text-white font-black text-lg rounded-2xl shadow-xl shadow-emerald-900/20 hover:bg-emerald-700 transition-all disabled:opacity-50"
+            className="w-full py-4 bg-emerald-800 text-white font-black text-lg rounded-4xl shadow-xl shadow-emerald-900/20 hover:bg-emerald-700 transition-all disabled:opacity-50"
           >
             {submitting ? '...' : mode === 'login' ? 'Zaloguj' : 'Zarejestruj'}
           </button>
@@ -90,7 +90,7 @@ export default function AuthScreen() {
 
         <button
           onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }}
-          className="w-full mt-6 text-sm font-bold text-slate-400 hover:text-emerald-600 transition-colors"
+          className="w-full mt-6 text-sm font-bold text-slate-400 hover:text-emerald-800 transition-colors"
         >
           {mode === 'login' ? 'Nie masz konta? Zarejestruj się' : 'Masz już konto? Zaloguj się'}
         </button>

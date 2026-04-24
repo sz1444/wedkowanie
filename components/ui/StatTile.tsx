@@ -16,7 +16,7 @@ interface StatTileProps {
 export default function StatTile({ icon: Icon, iconBg = 'bg-white', iconColor = 'text-slate-500', label, value, valueColor = 'text-slate-800', unit, accent = false }: StatTileProps) {
   if (accent) {
     return (
-      <div className="bg-emerald-600 p-5 rounded-2xl text-white shadow-lg shadow-emerald-200 flex flex-col items-center relative overflow-hidden group">
+      <div className="bg-emerald-800 p-5 rounded-4xl text-white shadow-lg shadow-emerald-200 flex flex-col items-center relative overflow-hidden group">
         <div className={`p-2 bg-white/10 rounded-lg mb-2`}>
           <Icon size={18} />
         </div>
@@ -31,7 +31,7 @@ export default function StatTile({ icon: Icon, iconBg = 'bg-white', iconColor = 
   }
 
   return (
-    <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-center">
+    <div className="bg-white p-5 rounded-4xl border border-slate-100 shadow-sm flex flex-col items-center">
       <div className={`p-2 ${iconBg} rounded-lg mb-2`}>
         <Icon size={18} className={iconColor} />
       </div>

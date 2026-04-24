@@ -41,7 +41,7 @@ export default function FishPickerGrid({ selected, onSelect }: FishPickerGridPro
               className={`flex border  flex-col items-center gap-1 p-1.5 rounded-lg transition-all active:scale-95 ${
                 isSelected
                   ? 'border-emerald-500 bg-emerald-50'
-                  : 'bg-white border-slate-200 hover:bg-slate-100 '
+                  : 'bg-white border-slate-100 hover:bg-slate-100 '
               }`}
             >
               <div className="w-12 h-12 rounded-md overflow-hidden relative bg-whtie shrink-0">

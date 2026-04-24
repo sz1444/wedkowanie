@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Trophy, Star, Award, Medal, Zap, BookOpen, Pencil, Check, X, Trash2, Fish, Clock, ShieldCheck, ShieldX, List } from 'lucide-react';
+import { Trophy, Star, Award, Medal, Zap, FishingHook, Pencil, Check, X, Trash2, Fish, Clock, ShieldCheck, ShieldX, List } from 'lucide-react';
 import CTAButton from '@/components/ui/CTAButton';
 import type { FishCatch, Reactions } from '@/lib/fishing-data';
 import type { User } from 'firebase/auth';
@@ -79,8 +79,8 @@ export default function ProfileTab({ user, analytics, onFishDex, nick, onNickSav
   return (
     <div className="space-y-8 pb-10">
       {/* HEADER */}
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-6 bg-white p-5 rounded-2xl border border-slate-200">
-        <div className="w-20 h-20 bg-slate-900 text-white rounded-2xl flex items-center justify-center text-3xl font-black border-4 border-white shadow-xl relative shrink-0">
+      <div className="flex flex-col md:flex-row items-center md:items-start gap-6 bg-white p-5 rounded-4xl border border-slate-100">
+        <div className="w-20 h-20 bg-slate-900 text-white rounded-4xl flex items-center justify-center text-3xl font-black border-4 border-white shadow-xl relative shrink-0">
           {user.email?.slice(0, 1).toUpperCase() ?? 'A'}
           <div className="absolute -bottom-3 -right-3 p-2 bg-emerald-500 rounded-xl border-4 border-white shadow-lg">
             <Zap size={14} fill="white" stroke="white" />
@@ -100,7 +100,7 @@ export default function ProfileTab({ user, analytics, onFishDex, nick, onNickSav
                   placeholder="Twój nick..."
                   onKeyDown={(e) => { if (e.key === 'Enter') saveEdit(); if (e.key === 'Escape') cancelEdit(); }}
                 />
-                <button onClick={saveEdit} disabled={saving} className="p-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-50">
+                <button onClick={saveEdit} disabled={saving} className="p-2 bg-emerald-800 text-white rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-50">
                   <Check size={16} />
                 </button>
                 <button onClick={cancelEdit} className="p-2 bg-slate-100 text-slate-500 rounded-xl hover:bg-slate-200 transition-colors">
@@ -112,7 +112,7 @@ export default function ProfileTab({ user, analytics, onFishDex, nick, onNickSav
                 <h2 className="text-2xl font-black tracking-tight">
                   <NickBadge nick={displayNick} xp={analytics.totalXp} size="lg" />
                 </h2>
-                <button onClick={startEdit} className="p-1.5 text-slate-300 hover:text-emerald-600 rounded-lg hover:bg-emerald-50 transition-all">
+                <button onClick={startEdit} className="p-1.5 text-slate-300 hover:text-emerald-800 rounded-lg hover:bg-emerald-50 transition-all">
                   <Pencil size={14} />
                 </button>
               </div>
@@ -128,7 +128,7 @@ export default function ProfileTab({ user, analytics, onFishDex, nick, onNickSav
               <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
                 Lvl {lvl.level} · {lvl.currentXp} / {lvl.nextLevelXp} XP
               </span>
-              <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">
+              <span className="text-[10px] font-black text-emerald-800 uppercase tracking-widest">
                 Do Lvl {lvl.level + 1}: {lvl.nextLevelXp - lvl.currentXp} XP
               </span>
             </div>
@@ -152,18 +152,18 @@ export default function ProfileTab({ user, analytics, onFishDex, nick, onNickSav
 
       {/* STATS */}
       <div className="grid grid-cols-3 gap-3">
-        <div className="bg-emerald-600 p-5 rounded-2xl text-white  flex flex-col items-center relative overflow-hidden group">
+        <div className="bg-emerald-800 p-5 rounded-4xl text-white  flex flex-col items-center relative overflow-hidden group">
           <div className="p-2 bg-white/10 rounded-lg mb-2"><Medal size={18} /></div>
           <p className="text-[9px] font-black uppercase opacity-60 tracking-widest mb-1">Ranking</p>
           <p className="text-3xl font-black tracking-tight">#{analytics.rank}</p>
           <Medal size={80} className="absolute -right-5 -bottom-5 opacity-5 group-hover:rotate-12 transition-transform" />
         </div>
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 flex flex-col items-center">
-          <div className="p-2 bg-slate-50 rounded-lg mb-2"><Trophy size={18} className="text-emerald-600 opacity-50" /></div>
+        <div className="bg-white p-5 rounded-4xl border border-slate-100 flex flex-col items-center">
+          <div className="p-2 bg-slate-50 rounded-lg mb-2"><Trophy size={18} className="text-emerald-800 opacity-50" /></div>
           <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Wyprawy</p>
           <p className="text-3xl font-black text-slate-800 tracking-tight">{analytics.total}</p>
         </div>
-        <div className="bg-white p-5 rounded-2xl border border-slate-200 flex flex-col items-center">
+        <div className="bg-white p-5 rounded-4xl border border-slate-100 flex flex-col items-center">
           <div className="p-2 bg-slate-50 rounded-lg mb-2"><Star size={18} className="text-yellow-500 opacity-50" /></div>
           <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Rekord</p>
           <div className="flex items-baseline gap-1">
@@ -188,7 +188,7 @@ export default function ProfileTab({ user, analytics, onFishDex, nick, onNickSav
                 .filter(([, r]) => r.userId === user.uid);
               if (mySpecies.length === 0) {
                 return (
-                  <div className="col-span-full py-10 text-center bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
+                  <div className="col-span-full py-10 text-center bg-slate-50 rounded-4xl border-2 border-dashed border-slate-100">
                     <p className="text-slate-400 font-bold text-sm">Brak rekordów. Zacznij łowić!</p>
                   </div>
                 );
@@ -196,13 +196,13 @@ export default function ProfileTab({ user, analytics, onFishDex, nick, onNickSav
               return mySpecies.map(([species, record]) => {
                 const mc = MEDAL_COLORS[record.waga >= 10 ? 'gold' : record.waga >= 5 ? 'silver' : 'bronze'];
                 return (
-                  <div key={species} className={`p-4 rounded-2xl border-2 shadow-sm flex flex-col gap-3 bg-yellow-50 border-yellow-400 shadow-yellow-100`}>
+                  <div key={species} className={`p-4 rounded-4xl border-2 shadow-sm flex flex-col gap-3 bg-yellow-50 border-yellow-400 shadow-yellow-100`}>
                     <div className="flex justify-between items-start gap-1">
                       <span className="font-black text-slate-900 uppercase text-[10px] tracking-widest leading-tight">{species}</span>
                       <span className="text-base leading-none shrink-0">{mc.emoji}</span>
                     </div>
                     <div className="flex items-baseline gap-1">
-                      <span className="text-xl font-black text-emerald-600">{record.waga}</span>
+                      <span className="text-xl font-black text-emerald-800">{record.waga}</span>
                       <span className="text-xs text-slate-400 font-bold">kg</span>
                     </div>
                     <div className="pt-2 border-t border-slate-100">
@@ -216,7 +216,7 @@ export default function ProfileTab({ user, analytics, onFishDex, nick, onNickSav
       </div>
       {onFishDex && (
         <CTAButton
-          icon={BookOpen}
+          icon={FishingHook}
           title="Rejestr Połowów · Atlas Kolekcjonera"
           subtitle="Sprawdź odkryte gatunki i rekordy"
           onClick={onFishDex}

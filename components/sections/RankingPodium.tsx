@@ -76,7 +76,7 @@ export default function RankingPodium({ entries, onSelect }: RankingPodiumProps)
           <button
             key={entry.uid}
             onClick={() => onSelect(entry.uid)}
-            className={`${p.order} ${p.height} flex-1 max-w-[160px] relative rounded-2xl overflow-hidden flex flex-col items-center justify-end pb-4 px-3 gap-1 active:scale-95 transition-transform`}
+            className={`${p.order} ${p.height} flex-1 max-w-[160px] relative rounded-4xl overflow-hidden flex flex-col items-center justify-end pb-4 px-3 gap-1 active:scale-95 transition-transform`}
             style={{ background: p.gradient, boxShadow: p.shadow, border: `1.5px solid ${p.border}` }}
           >
             {/* glass overlay */}

@@ -100,7 +100,7 @@ export const XP_TIERS: XpTier[] = [
     label: 'Wędkarz',
     minXp: 500,
     gradient: 'linear-gradient(90deg, #333, #000)',
-    borderColor: 'border-slate-200',
+    borderColor: 'border-slate-100',
     bgClass: 'bg-white',
     textClass: 'text-gray-800',
   },
@@ -186,21 +186,21 @@ export const MEDAL_COLORS: Record<Medal, { bg: string; text: string; border: str
   bronze: {
     bg: 'bg-white',
     text: 'text-amber-700',
-    border: 'border-slate-200',
+    border: 'border-slate-100',
     label: 'Brąz',
     emoji: '🥉',
   },
   silver: {
     bg: 'bg-white',
     text: 'text-slate-600',
-    border: 'border-slate-200',
+    border: 'border-slate-100',
     label: 'Srebro',
     emoji: '🥈',
   },
   gold: {
     bg: 'bg-yellow-100',
     text: 'text-yellow-700',
-    border: 'border-slate-200',
+    border: 'border-slate-100',
     label: 'Złoto',
     emoji: '🥇',
   },
@@ -208,7 +208,7 @@ export const MEDAL_COLORS: Record<Medal, { bg: string; text: string; border: str
 
 export const RARENESS_COLORS: Record<FishDexEntry['rzadkosc'], string> = {
   common: 'text-slate-400',
-  uncommon: 'text-emerald-600',
+  uncommon: 'text-emerald-800',
   rare: 'text-blue-600',
   legendary: 'text-purple-600',
 };

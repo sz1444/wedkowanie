@@ -25,7 +25,7 @@ export default function SectionHeader({
   return (
     <div className={`flex items-center justify-between ${noMargin ? '' : 'mb-6'}`}>
       <div className="flex items-center gap-4">
-        <div className={`p-3 text-white rounded-xl bg-emerald-600`}>
+        <div className={`p-3 text-white rounded-xl bg-emerald-800`}>
           <Icon size={22} />
         </div>
        
@@ -34,7 +34,7 @@ export default function SectionHeader({
               {title.split(" ").map((word, index) => (
                 <span key={index}>
                   {index === 1 ? (
-                    <span className="text-emerald-600"> {word} </span>
+                    <span className="text-emerald-800"> {word} </span>
                   ) : (
                     index === 0 ? word : ` ${word}`
                   )}

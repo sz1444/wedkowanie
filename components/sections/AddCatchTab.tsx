@@ -110,7 +110,7 @@ export default function AddCatchTab({ user, nick, onSuccess }: AddCatchTabProps)
     <div className="max-w-6xl mx-auto">
       <SectionHeader
         icon={Camera}
-        iconBg="bg-emerald-600"
+        iconBg="bg-emerald-800"
         iconColor="text-white"
         title="Dodaj Połów"
         subtitle="Zrób zdjęcie i wpisz wagę"
@@ -127,7 +127,7 @@ export default function AddCatchTab({ user, nick, onSuccess }: AddCatchTabProps)
       {step === 1 && (
         <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6 text-center">
           <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center">
-            <Camera size={40} className="text-emerald-600" />
+            <Camera size={40} className="text-emerald-800" />
           </div>
           <div>
             <h2 className="text-2xl font-black uppercase tracking-tight text-slate-800">Zrób zdjęcie</h2>
@@ -136,7 +136,7 @@ export default function AddCatchTab({ user, nick, onSuccess }: AddCatchTabProps)
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="bg-emerald-600 text-white font-black text-base py-4 px-10 rounded-2xl shadow-lg shadow-emerald-200 active:scale-95 transition-all"
+            className="bg-emerald-800 text-white font-black text-base py-4 px-10 rounded-4xl shadow-lg shadow-emerald-200 active:scale-95 transition-all"
           >
             Otwórz aparat
           </button>
@@ -150,7 +150,7 @@ export default function AddCatchTab({ user, nick, onSuccess }: AddCatchTabProps)
 
       {step === 2 && (
         <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-          <div className="relative rounded-2xl overflow-hidden border-2 border-emerald-500">
+          <div className="relative rounded-4xl overflow-hidden border-2 border-emerald-500">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={photoDataUrl!} alt="Podgląd połowu" className="w-full h-52 object-cover" />
             <button
@@ -184,7 +184,7 @@ export default function AddCatchTab({ user, nick, onSuccess }: AddCatchTabProps)
             </p>
           </div>
 
-          <div className="bg-white p-8 rounded-xl border border-slate-200 space-y-5">
+          <div className="bg-white p-8 rounded-xl border border-slate-100 space-y-5">
             <div>
               <label className="text-base font-black text-slate-400 uppercase tracking-widest block mb-3">
                 Gatunek ryby
@@ -206,7 +206,7 @@ export default function AddCatchTab({ user, nick, onSuccess }: AddCatchTabProps)
             </div>
 
             {previewXp && (
-              <p className="text-xs font-black text-emerald-600 tracking-widest uppercase">
+              <p className="text-xs font-black text-emerald-800 tracking-widest uppercase">
                 +{previewXp} XP po akceptacji
               </p>
             )}
@@ -229,7 +229,7 @@ export default function AddCatchTab({ user, nick, onSuccess }: AddCatchTabProps)
               disabled={!waga || submitting}
               className={`w-full text-base font-black py-4 rounded-xl shadow-sm transition-all active:scale-[0.98] ${
                 waga && !submitting
-                  ? 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-emerald-900/20'
+                  ? 'bg-emerald-800 text-white hover:bg-emerald-700 shadow-emerald-900/20'
                   : 'bg-slate-100 text-slate-400 cursor-not-allowed'
               }`}
             >

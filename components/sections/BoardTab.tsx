@@ -31,7 +31,7 @@ export default function BoardTab({ catches, userId, xpByUid, onAddCatch, onReact
       >
         <button
           onClick={onAddCatch}
-          className="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 active:scale-95 transition-all font-black text-xs uppercase tracking-widest "
+          className="flex items-center gap-2 px-4 py-2.5 bg-emerald-800 text-white rounded-xl hover:bg-emerald-700 active:scale-95 transition-all font-black text-xs uppercase tracking-widest "
         >
           <PlusCircle size={14} />
           Dodaj
@@ -46,7 +46,7 @@ export default function BoardTab({ catches, userId, xpByUid, onAddCatch, onReact
             const medal = c.medal;
             const mc = medal ? MEDAL_COLORS[medal] : null;
             return (
-              <div key={c.id} className="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col group">
+              <div key={c.id} className="bg-white rounded-4xl border border-slate-100 overflow-hidden flex flex-col group">
                 {/* ZDJĘCIE */}
                 <div className="aspect-video bg-slate-100 relative flex items-center justify-center overflow-hidden">
                   {c.photo

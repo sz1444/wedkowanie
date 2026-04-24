@@ -110,7 +110,7 @@ export default function UserCatchesModal({ nick, totalXp, roles, catches, onClos
                     </div>
                     <div className="shrink-0 text-right">
                       {c.xp ? (
-                        <span className="text-[10px] font-black text-emerald-600">+{c.xp} XP</span>
+                        <span className="text-[10px] font-black text-emerald-800">+{c.xp} XP</span>
                       ) : null}
                       <p className="text-[9px] font-bold text-slate-300">
                         {new Date(c.data).toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit' })}

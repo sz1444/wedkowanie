@@ -27,7 +27,7 @@ export default function FeedPage() {
 
   return (
     <>
-      <FeedTab
+<FeedTab
         fishingInfo={fishingInfo}
         catches={catches}
         userId={user.uid}

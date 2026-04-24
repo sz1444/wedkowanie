@@ -71,16 +71,16 @@ export default function FeedTab({ fishingInfo, catches, userId, userRoles, xpByU
 
           <div ref={rankingSliderRef} className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-4 pb-4 -mx-4 px-4 md:mx-0 md:px-0">
             {/* KARTA XP */}
-            <div className="snap-start shrink-0 w-full bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col h-full p-8">
+            <div className="snap-start shrink-0 w-full bg-white rounded-4xl border border-slate-100 overflow-hidden flex flex-col h-full p-8">
               <div className="py-4 flex items-center gap-2 shrink-0">
                 <div className="flex flex-col">
-                  <p className="uppercase tracking-widest text-[9px] text-emerald-600">Aktualna Klasyfikacja</p>
+                  <p className="uppercase tracking-widest text-[9px] text-emerald-800">Aktualna Klasyfikacja</p>
                   <h3 className="text-xl font-black uppercase tracking-widest text-slate-700">Ranking <span className='font-light'>ogólny</span></h3>
                 </div>
            
                 <button
                   onClick={() => router.push('/rankings/xp')}
-                  className="ml-auto flex items-center gap-1 text-[9px] font-black text-emerald-600 uppercase tracking-widest hover:underline shrink-0"
+                  className="ml-auto flex items-center gap-1 text-[9px] font-black text-emerald-800 uppercase tracking-widest hover:underline shrink-0"
                 >
                   Zobacz wszystko <ArrowRight size={10} />
                 </button>
@@ -128,7 +128,7 @@ export default function FeedTab({ fishingInfo, catches, userId, userRoles, xpByU
       {/* WARUNKI + ALERTY */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {/* ŚRODOWISKO */}
-        <div className="bg-white rounded-2xl p-6 border border-slate-200 flex flex-col justify-between">
+        <div className="bg-white rounded-4xl p-6 border border-slate-100 flex flex-col justify-between">
           <div className="mb-4">
             <h3 className="text-sm font-black text-slate-900 uppercase tracking-tight">Środowisko</h3>
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Wskazania czujników</p>
@@ -152,7 +152,7 @@ export default function FeedTab({ fishingInfo, catches, userId, userRoles, xpByU
         </div>
 
         {/* CENTRUM ALERTÓW */}
-        <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-slate-200 flex flex-col">
+        <div className="lg:col-span-2 bg-white rounded-4xl p-6 border border-slate-100 flex flex-col">
           <div className="flex justify-between items-start mb-4">
             <div className="flex items-center gap-3">
               <div className="p-2.5 bg-red-100 rounded-xl text-red-600"><ShieldAlert size={22} /></div>
@@ -169,7 +169,7 @@ export default function FeedTab({ fishingInfo, catches, userId, userRoles, xpByU
           <div className="space-y-2 overflow-y-auto max-h-48">
             {fishingInfo.zakazy.length > 0 ? (
               fishingInfo.zakazy.map((z) => (
-                <div key={z.nazwa} className="flex justify-between items-center border border-slate-200 rounded-xl p-4">
+                <div key={z.nazwa} className="flex justify-between items-center border border-slate-100 rounded-xl p-4">
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-xl bg-red-100 flex items-center justify-center text-red-500 shrink-0">
                       <Fish size={16} />

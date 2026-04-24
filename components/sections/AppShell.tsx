@@ -49,7 +49,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <MobileNav />
         <button
           onClick={() => router.push('/add')}
-          className="fixed bottom-24 right-5 z-50 w-14 h-14 bg-emerald-600 text-white rounded-full shadow-xl shadow-emerald-900/30 flex items-center justify-center active:scale-95 transition-all hover:bg-emerald-700 md:bottom-8 md:right-8"
+          className="hidden md:flex fixed bottom-8 right-8 z-50 w-14 h-14 bg-emerald-800 text-white rounded-full shadow-xl shadow-emerald-900/30 items-center justify-center active:scale-95 transition-all hover:bg-emerald-700"
           aria-label="Dodaj połów"
         >
           <Plus size={28} strokeWidth={2.5} />
