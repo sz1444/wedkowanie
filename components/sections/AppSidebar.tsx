@@ -5,6 +5,7 @@ import { Home, User as UserIcon, PlusCircle, Zap, FishingHook, LayoutGrid, Shiel
 import NickBadge, { TierBadge } from '@/components/ui/NickBadge';
 import RoleBadge from '@/components/ui/RoleBadge';
 import { useApp } from '@/lib/app-context';
+import Image from 'next/image';
 
 const NAV_ITEMS = [
   { href: '/feed',        icon: Home,       label: 'Home' },
@@ -26,8 +27,14 @@ export default function AppSidebar() {
     <aside className="hidden md:flex flex-col w-72 bg-white border-r border-slate-100 sticky top-0 h-screen p-6 shadow-sm z-30">
       {/* LOGO */}
       <div className="mb-10 flex items-center gap-3 px-2">
-        <div className="p-2.5 bg-emerald-800 rounded-xl text-white shadow-lg shadow-emerald-200">
-          <Zap size={22} />
+        <div className="relative w-14 h-14 rounded-xl text-white">
+            <Image
+              src={`/logo.png`}
+              alt={'FishRank Logo'}
+              fill
+              className="object-contain"
+              sizes="48px"
+            />
         </div>
         <div>
           <h1 className="text-xl font-black tracking-tighter text-slate-800 leading-none uppercase">

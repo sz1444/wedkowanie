@@ -1,8 +1,9 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { User as UserIcon, Zap } from 'lucide-react';
+import { User as UserIcon } from 'lucide-react';
 import { useApp } from '@/lib/app-context';
+import Image from 'next/image';
 
 export default function MobileHeader() {
   const { analytics, lvl } = useApp();
@@ -11,8 +12,14 @@ export default function MobileHeader() {
   return (
     <header className="md:hidden px-5 py-4 bg-white border-b border-slate-100 sticky top-0 z-40 flex justify-between items-center shadow-sm">
       <div className="flex items-center gap-2.5">
-        <div className="p-1.5 bg-emerald-800 rounded-lg text-white">
-          <Zap size={14} />
+        <div className="relative w-14 h-14 rounded-xl text-white">
+          <Image
+            src={`/logo.jpeg`}
+            alt={'FishRank Logo'}
+            fill
+            className="object-contain"
+            sizes="48px"
+          />
         </div>
         <h1 className="text-lg font-black text-slate-800 tracking-tight uppercase leading-none">
           Fish<span className="text-emerald-800">Rank</span>
