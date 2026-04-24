@@ -109,20 +109,20 @@ function SpeciesRanking({ species }: { species: string }) {
   const [sortDir, setSortDir] = useState<SortDir>('desc');
 
   const ranking = useMemo(() => {
-    const best: Record<string, { uid: string; autor: string; waga: number; }> = {};
+    const best: Record<string, { uid: string; autor: string; waga: number; rank: number }> = {};
     for (const c of catches) {
       if (c.aiVerified !== true || c.ryba !== species) continue;
       const waga = parseFloat(String(c.waga)) || 0;
       if (!best[c.userId] || waga > best[c.userId].waga)
-        best[c.userId] = { uid: c.userId, autor: c.autor, waga };
+        best[c.userId] = { uid: c.userId, autor: c.autor, waga, rank: 0 };
     }
     const q = playerSearch.trim().toLowerCase();
-    return Object.values(best)
+    const all = Object.values(best).sort((a, b) => b.waga - a.waga);
+    all.forEach((e, i) => { e.rank = i + 1; });
+    return all
       .filter((e) => !q || e.autor.toLowerCase().includes(q))
       .sort((a, b) => sortDir === 'desc' ? b.waga - a.waga : a.waga - b.waga);
   }, [catches, species, playerSearch, sortDir]);
-
-  const isFirst = (i: number) => i === 0;
 
   return (
     <>
@@ -140,30 +140,34 @@ function SpeciesRanking({ species }: { species: string }) {
 
       <div className="space-y-2">
         {ranking.length === 0 && <p className="text-center text-xs font-bold text-slate-300 uppercase tracking-widest py-12">Brak połowów tego gatunku</p>}
-        {ranking.map((entry, i) => (
-          <div key={entry.uid} className="flex items-center gap-4 px-5 py-4 rounded-4xl bg-white border border-slate-100">
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-black shrink-0 ${i < 3 ? PLACE_STYLES[i] : 'bg-slate-100 text-slate-500'}`}>
-              {i + 1}
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-1.5 flex-wrap">
-                <ClickableNick nick={entry.autor} uid={entry.uid} xp={xpByUid[entry.uid] ?? 0} size="lg" />
-                {isFirst(i) && <Crown size={13} className="text-yellow-500 shrink-0" />}
+        {ranking.map((entry) => {
+          const rank = entry.rank;
+          const isFirst = rank === 1;
+          return (
+            <div key={entry.uid} className="flex items-center gap-4 px-5 py-4 rounded-4xl bg-white border border-slate-100">
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-black shrink-0 ${rank <= 3 ? PLACE_STYLES[rank - 1] : 'bg-slate-100 text-slate-500'}`}>
+                {rank}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <ClickableNick nick={entry.autor} uid={entry.uid} xp={xpByUid[entry.uid] ?? 0} size="lg" />
+                  {isFirst && <Crown size={13} className="text-yellow-500 shrink-0" />}
+                </div>
+              </div>
+              <div className="text-right shrink-0">
+                <p className={`font-black ${isFirst ? 'text-2xl text-emerald-700' : 'text-xl text-slate-800'} leading-none`}>
+                  {entry.waga}
+                  <span className={`text-[10px] font-bold ml-1 ${isFirst ? 'text-emerald-500' : 'text-slate-400'}`}>kg</span>
+                </p>
+                {isFirst && (
+                  <span className="inline-flex items-center gap-0.5 text-[9px] font-black text-emerald-800 uppercase tracking-wider mt-0.5">
+                    <TrendingUp size={9} /> Aktualny Rekord
+                  </span>
+                )}
               </div>
             </div>
-            <div className="text-right shrink-0">
-              <p className={`font-black ${isFirst(i) ? 'text-2xl text-emerald-700' : 'text-xl text-slate-800'} leading-none`}>
-                {entry.waga}
-                <span className={`text-[10px] font-bold ml-1 ${isFirst(i) ? 'text-emerald-500' : 'text-slate-400'}`}>kg</span>
-              </p>
-              {isFirst(i) && (
-                <span className="inline-flex items-center gap-0.5 text-[9px] font-black text-emerald-800 uppercase tracking-wider mt-0.5">
-                  <TrendingUp size={9} /> Aktualny Rekord
-                </span>
-              )}
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </>
   );
