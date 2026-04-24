@@ -17,15 +17,18 @@ export default function ReactionBar({ catch_: c, userId, onReact }: ReactionBarP
   const handleClick = async (emoji: keyof Reactions) => {
     if (loading) return;
     setLoading(true);
+
+    const isRemoving = myReaction === emoji;
+    const isChanging = !!myReaction && myReaction !== emoji;
+    const action = isRemoving ? 'removed' : isChanging ? 'changed' : 'added';
+    onReact(c.id, emoji, action, myReaction ?? null);
+
     try {
-      const res = await fetch(`/api/catches/${c.id}/react`, {
+      await fetch(`/api/catches/${c.id}/react`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ emoji, userId }),
       });
-      if (!res.ok) return;
-      const data = await res.json();
-      onReact(c.id, emoji, data.action, data.prev);
     } finally {
       setLoading(false);
     }

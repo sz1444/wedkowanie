@@ -88,7 +88,7 @@ export function useAppState(): AppState {
         const reactedBy = { ...c.reactedBy };
         if (action === 'removed') {
           reactions[emoji] = Math.max(0, (reactions[emoji] ?? 0) - 1);
-          delete reactedBy[id];
+          delete reactedBy[user!.uid];
         } else {
           reactions[emoji] = (reactions[emoji] ?? 0) + 1;
           if (prev) reactions[prev] = Math.max(0, (reactions[prev] ?? 0) - 1);
