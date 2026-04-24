@@ -64,7 +64,7 @@ export default function ProfileGallery({ myCatches }: ProfileGalleryProps) {
             <p className="text-slate-400 font-bold text-sm">Brak rekordów. Zacznij łowić!</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {records.map((c) => {
               const medal = getMedalForCatch(c.ryba, c.waga);
               const mc = MEDAL_COLORS[medal];
