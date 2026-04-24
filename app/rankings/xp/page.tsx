@@ -24,11 +24,9 @@ function XpRanking() {
   const base = useMemo(() => {
     const autorByUid: Record<string, string> = {};
     const catchCountByUid: Record<string, number> = {};
-    const locationByUid: Record<string, string> = {};
     for (const c of catches) {
       if (!autorByUid[c.userId]) autorByUid[c.userId] = c.autor;
       if (c.aiVerified === true) catchCountByUid[c.userId] = (catchCountByUid[c.userId] ?? 0) + 1;
-      if (c.lowisko && !locationByUid[c.userId]) locationByUid[c.userId] = c.lowisko;
     }
     return Object.entries(xpByUid)
       .filter(([, xp]) => xp > 0)
@@ -37,7 +35,6 @@ function XpRanking() {
         autor: autorByUid[uid] ?? 'Angler',
         totalXp,
         catchCount: catchCountByUid[uid] ?? 0,
-        location: locationByUid[uid] ?? null,
       }))
       .sort((a, b) => b.totalXp - a.totalXp);
   }, [catches, xpByUid]);
@@ -86,11 +83,6 @@ function XpRanking() {
                   {roles.includes('sędzia') && <span className="text-[8px] font-black px-1.5 py-0.5 rounded-md border bg-blue-50 text-blue-600 border-blue-200">SĘDZIA</span>}
                   <span className={`text-[8px] font-black px-1.5 py-0.5 rounded-md border ${tier.bgClass} ${tier.textClass} ${tier.borderColor}`}>{tier.label}</span>
                 </div>
-                {entry.location && (
-                  <span className="flex items-center gap-0.5 text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
-                    <MapPin size={9} className="text-slate-300" />{entry.location}
-                  </span>
-                )}
               </div>
               <div className="text-right shrink-0">
                 <p className={`font-black ${isFirst ? 'text-2xl text-emerald-700' : 'text-xl text-slate-800'} leading-none`}>
@@ -117,12 +109,12 @@ function SpeciesRanking({ species }: { species: string }) {
   const [sortDir, setSortDir] = useState<SortDir>('desc');
 
   const ranking = useMemo(() => {
-    const best: Record<string, { uid: string; autor: string; waga: number; location: string | null }> = {};
+    const best: Record<string, { uid: string; autor: string; waga: number; }> = {};
     for (const c of catches) {
       if (c.aiVerified !== true || c.ryba !== species) continue;
       const waga = parseFloat(String(c.waga)) || 0;
       if (!best[c.userId] || waga > best[c.userId].waga)
-        best[c.userId] = { uid: c.userId, autor: c.autor, waga, location: c.lowisko ?? null };
+        best[c.userId] = { uid: c.userId, autor: c.autor, waga };
     }
     const q = playerSearch.trim().toLowerCase();
     return Object.values(best)
@@ -158,11 +150,6 @@ function SpeciesRanking({ species }: { species: string }) {
                 <ClickableNick nick={entry.autor} uid={entry.uid} xp={xpByUid[entry.uid] ?? 0} size="lg" />
                 {isFirst(i) && <Crown size={13} className="text-yellow-500 shrink-0" />}
               </div>
-              {entry.location && (
-                <span className="flex items-center gap-0.5 text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
-                  <MapPin size={9} className="text-slate-300" />{entry.location}
-                </span>
-              )}
             </div>
             <div className="text-right shrink-0">
               <p className={`font-black ${isFirst(i) ? 'text-2xl text-emerald-700' : 'text-xl text-slate-800'} leading-none`}>
