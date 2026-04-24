@@ -47,6 +47,16 @@ export default function AddCatchTab({ user, nick, onSuccess }: AddCatchTabProps)
   const cameraOpened = useRef(false);
 
   useEffect(() => {
+    const pending = sessionStorage.getItem('pendingPhoto');
+    if (pending) {
+      sessionStorage.removeItem('pendingPhoto');
+      void computePhotoHash(pending).then((hash) => {
+        setPhotoDataUrl(pending);
+        setPhotoHash(hash);
+        setStep(2);
+      });
+      return;
+    }
     if (!cameraOpened.current) {
       cameraOpened.current = true;
       fileInputRef.current?.click();

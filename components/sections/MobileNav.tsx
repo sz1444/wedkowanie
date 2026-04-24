@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
+import { useRef, useCallback } from 'react';
 import { Home, FishingHook, LayoutGrid, Trophy, Plus } from 'lucide-react';
 
 const LEFT_NAV = [
@@ -16,6 +17,20 @@ const RIGHT_NAV = [
 export default function MobileNav() {
   const pathname = usePathname();
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const dataUrl = ev.target?.result as string;
+      sessionStorage.setItem('pendingPhoto', dataUrl);
+      router.push('/add');
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  }, [router]);
 
   const navButton = (item: { href: string; icon: React.ElementType; label: string; match?: string }) => {
     const active = item.match ? pathname.startsWith(item.match) : pathname === item.href;
@@ -35,15 +50,24 @@ export default function MobileNav() {
 
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 flex justify-around items-center px-4 pt-3 pb-7 z-50 shadow-[0_-8px_40px_-12px_rgba(0,0,0,0.12)] rounded-t-3xl">
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        className="hidden"
+        onChange={handleFileChange}
+      />
+
       {LEFT_NAV.map(navButton)}
 
       <button
-        onClick={() => router.push('/add')}
+        onClick={() => fileInputRef.current?.click()}
         className="flex flex-col items-center justify-center w-14 h-14 rounded-full bg-emerald-800 text-white shadow-lg shadow-emerald-900/40 -mt-10 active:scale-95 transition-all"
-        aria-label="Dodaj połów border border-slate-400"
+        aria-label="Dodaj połów"
         style={{ boxShadow: '0 0px 0 2px #fff, 0 8px 24px -4px rgba(20,83,45,0.45)' }}
       >
-          <Plus size={26} strokeWidth={2.5} />
+        <Plus size={26} strokeWidth={2.5} />
       </button>
 
       {RIGHT_NAV.map(navButton)}
