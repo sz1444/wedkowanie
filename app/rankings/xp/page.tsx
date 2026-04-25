@@ -2,9 +2,10 @@
 
 import { useState, useMemo } from 'react';
 import { useApp } from '@/lib/app-context';
-import { LISTA_RYB, getXpTier } from '@/lib/fishing-data';
+import { LISTA_RYB } from '@/lib/fishing-data';
+import { getAllFishRanksSorted, getFishRankTitle } from '@/lib/fish-ranks';
 import ClickableNick from '@/components/ui/ClickableNick';
-import { Search, ArrowDown, ArrowUp, Trophy, Fish, Zap, Crown, MapPin, TrendingUp } from 'lucide-react';
+import { Search, ArrowDown, ArrowUp, Trophy, Fish, Zap, Crown, TrendingUp } from 'lucide-react';
 import SectionHeader from '@/components/ui/SectionHeader';
 
 type Tab = 'xp' | string;
@@ -24,9 +25,11 @@ function XpRanking() {
   const base = useMemo(() => {
     const autorByUid: Record<string, string> = {};
     const catchCountByUid: Record<string, number> = {};
+    const catchesByUid: Record<string, typeof catches> = {};
     for (const c of catches) {
       if (!autorByUid[c.userId]) autorByUid[c.userId] = c.autor;
       if (c.aiVerified === true) catchCountByUid[c.userId] = (catchCountByUid[c.userId] ?? 0) + 1;
+      (catchesByUid[c.userId] ??= []).push(c);
     }
     return Object.entries(xpByUid)
       .filter(([, xp]) => xp > 0)
@@ -35,6 +38,7 @@ function XpRanking() {
         autor: autorByUid[uid] ?? 'Angler',
         totalXp,
         catchCount: catchCountByUid[uid] ?? 0,
+        fishRanks: getAllFishRanksSorted(catchesByUid[uid] ?? []),
       }))
       .sort((a, b) => b.totalXp - a.totalXp);
   }, [catches, xpByUid]);
@@ -66,9 +70,10 @@ function XpRanking() {
         {sorted.map((entry) => {
           const globalRank = base.indexOf(entry);
           const isMe = entry.uid === user.uid;
-          const tier = getXpTier(entry.totalXp);
           const roles = isMe ? userRoles : (rolesByUid[entry.uid] ?? []);
           const isFirst = globalRank === 0;
+          const topFishRank = entry.fishRanks[0] ?? null;
+          const extraCount = entry.fishRanks.length - 1;
           return (
             <div key={entry.uid} className="flex items-center gap-4 px-5 py-4 rounded-4xl bg-white border border-slate-100">
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-black shrink-0 ${globalRank < 3 ? PLACE_STYLES[globalRank] : 'bg-slate-100 text-slate-500'}`}>
@@ -81,7 +86,16 @@ function XpRanking() {
                   {isMe && <span className="text-[8px] font-black px-1.5 py-0.5 rounded-md border bg-emerald-100 text-emerald-700 border-emerald-200">TY</span>}
                   {roles.includes('admin') && <span className="text-[8px] font-black px-1.5 py-0.5 rounded-md border bg-red-50 text-red-600 border-red-200">ADMIN</span>}
                   {roles.includes('sędzia') && <span className="text-[8px] font-black px-1.5 py-0.5 rounded-md border bg-blue-50 text-blue-600 border-blue-200">SĘDZIA</span>}
-                  <span className={`text-[8px] font-black px-1.5 py-0.5 rounded-md border ${tier.bgClass} ${tier.textClass} ${tier.borderColor}`}>{tier.label}</span>
+                  {topFishRank && (
+                    <span className={`text-[8px] font-black px-1.5 py-0.5 rounded-md border ${topFishRank.rank.color.bg} ${topFishRank.rank.color.text} ${topFishRank.rank.color.border}`}>
+                      {getFishRankTitle(topFishRank.rank.title, topFishRank.ryba)}
+                    </span>
+                  )}
+                  {extraCount > 0 && (
+                    <span className="text-[8px] font-black px-1.5 py-0.5 rounded-md border bg-slate-50 text-slate-400 border-slate-200">
+                      +{extraCount}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="text-right shrink-0">

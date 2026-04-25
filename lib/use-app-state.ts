@@ -9,7 +9,7 @@ import type { User } from 'firebase/auth';
 
 const POLL_INTERVAL_MS = 30_000;
 
-export type Tab = 'feed' | 'board' | 'profile' | 'ai' | 'add' | 'fishdex' | 'admin';
+export type Tab = 'feed' | 'profile' | 'ai' | 'add' | 'fishdex' | 'admin';
 
 export interface AppState {
   user: User | null;

@@ -2,7 +2,8 @@
 
 import { useMemo } from 'react';
 import NickBadge from '../ui/NickBadge';
-import { MEDAL_COLORS, getLevelFromXp, getXpTier } from '@/lib/fishing-data';
+import { MEDAL_COLORS, getLevelFromXp } from '@/lib/fishing-data';
+import { getBestFishRank, getFishRankTitle } from '@/lib/fish-ranks';
 import { X, Fish, Scale, MapPin, ShieldCheck, Trophy } from 'lucide-react';
 import type { FishCatch } from '@/lib/fishing-data';
 
@@ -15,7 +16,7 @@ interface UserCatchesModalProps {
 }
 
 export default function UserCatchesModal({ nick, totalXp, roles, catches, onClose }: UserCatchesModalProps) {
-  const tier = getXpTier(totalXp);
+  const bestFishRank = getBestFishRank(catches);
 
   const stats = useMemo(() => {
     const verified = catches.filter((c) => c.aiVerified === true);
@@ -41,9 +42,11 @@ export default function UserCatchesModal({ nick, totalXp, roles, catches, onClos
               <div className="min-w-0">
                 <NickBadge nick={nick} xp={totalXp} size="md" />
                 <div className="flex items-center gap-1.5 mt-1 flex-wrap">
-                  <span className={`text-[8px] font-black px-1.5 py-0.5 rounded-md border ${tier.bgClass} ${tier.textClass} ${tier.borderColor}`}>
-                    {tier.label}
-                  </span>
+                  {bestFishRank && (
+                    <span className={`text-[8px] font-black px-1.5 py-0.5 rounded-md border ${bestFishRank.rank.color.bg} ${bestFishRank.rank.color.text} ${bestFishRank.rank.color.border}`}>
+                      {getFishRankTitle(bestFishRank.rank.title, bestFishRank.ryba)}
+                    </span>
+                  )}
                   {roles.includes('admin') && (
                     <span className="text-[8px] font-black px-1.5 py-0.5 rounded-md border bg-red-50 text-red-600 border-red-200">Admin</span>
                   )}

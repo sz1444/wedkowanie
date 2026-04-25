@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useRef, useCallback } from 'react';
-import { Home, FishingHook, LayoutGrid, Trophy, Plus } from 'lucide-react';
+import { Home, FishingHook, Trophy, Plus } from 'lucide-react';
 
 const LEFT_NAV = [
   { href: '/feed',    icon: Home,        label: 'Home' },
@@ -10,8 +10,7 @@ const LEFT_NAV = [
 ];
 
 const RIGHT_NAV = [
-  { href: '/board',       icon: LayoutGrid, label: 'Tablica' },
-  { href: '/rankings/xp', icon: Trophy,     label: 'Rankingi', match: '/rankings' },
+  { href: '/rankings/xp', icon: Trophy, label: 'Rankingi', match: '/rankings' },
 ];
 
 export default function MobileNav() {

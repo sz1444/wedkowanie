@@ -7,7 +7,8 @@ import ProfileGallery from '@/components/sections/ProfileGallery';
 import type { FishCatch, Reactions } from '@/lib/fishing-data';
 import type { User } from 'firebase/auth';
 import { getLevelFromXp } from '@/lib/fishing-data';
-import NickBadge, { TierBadge, TierProgress } from '@/components/ui/NickBadge';
+import NickBadge from '@/components/ui/NickBadge';
+import { getAllFishRanksSorted, getFishRankTitle } from '@/lib/fish-ranks';
 import { useRouter } from 'next/navigation';
 
 interface Analytics {
@@ -33,6 +34,8 @@ const ALL_VIEW = '__all__';
 
 export default function ProfileTab({ user, analytics, onFishDex, nick, onNickSave }: ProfileTabProps) {
   const lvl = getLevelFromXp(analytics.totalXp);
+  const fishRanks = getAllFishRanksSorted(analytics.myCatches);
+  const topRank = fishRanks[0] ?? null;
   const displayNick = nick ?? user.email?.split('@')[0] ?? 'Angler';
   const router = useRouter();
 
@@ -91,7 +94,6 @@ export default function ProfileTab({ user, analytics, onFishDex, nick, onNickSav
                 </button>
               </div>
             )}
-            <TierBadge xp={analytics.totalXp} />
           </div>
           {error && <p className="text-xs font-bold text-red-500 mb-2">{error}</p>}
           <p className="text-sm text-slate-400 font-medium mb-3">{user.email}</p>
@@ -105,7 +107,20 @@ export default function ProfileTab({ user, analytics, onFishDex, nick, onNickSav
             </div>
             <p className="text-[9px] font-bold text-slate-300 uppercase tracking-widest text-right">Łącznie: {analytics.totalXp} XP</p>
           </div>
-          <div className="mt-3"><TierProgress xp={analytics.totalXp} /></div>
+          {fishRanks.length > 0 && (
+            <div className="mt-3 flex items-center gap-1.5 flex-wrap">
+              {topRank && (
+                <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-lg border ${topRank.rank.color.bg} ${topRank.rank.color.text} ${topRank.rank.color.border}`}>
+                  {getFishRankTitle(topRank.rank.title, topRank.ryba)}
+                </span>
+              )}
+              {fishRanks.length > 1 && (
+                <span className="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-lg border bg-slate-50 text-slate-400 border-slate-200">
+                  +{fishRanks.length - 1}
+                </span>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
