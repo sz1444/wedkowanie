@@ -1,10 +1,21 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import AppShell from '@/components/sections/AppShell';
+import SwRegister from '@/components/ui/SwRegister';
 
 export const metadata: Metadata = {
   title: 'FishRank – Universal Pro',
   description: 'Aplikacja wędkarska: raporty połowów, ranking, ekspert AI',
+  manifest: '/manifest.webmanifest',
+  appleWebApp: { capable: true, statusBarStyle: 'default', title: 'FishRank' },
+  icons: { apple: '/apple-touch-icon.png' },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#14532d',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -12,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pl">
       <body className="antialiased bg-slate-50">
         <AppShell>{children}</AppShell>
+        <SwRegister />
       </body>
     </html>
   );
