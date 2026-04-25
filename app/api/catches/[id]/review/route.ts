@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDb, CATCHES_COLLECTION } from '@/lib/firebase-server';
-import { getMedalForCatch, getXpForCatch } from '@/lib/fishing-data';
+import { getBestMedalForCatch, getTotalXpForCatch } from '@/lib/fishing-data';
 
 const USERS_COLLECTION = 'artifacts/fishrank-universal/public/data/users';
 
@@ -49,11 +49,10 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   }
 
   // Approve: calculate medal and XP now
-  const data = catchDoc.data() as { ryba?: string; waga?: number };
+  const data = catchDoc.data() as { ryba?: string; waga?: number; dlugoscCm?: number };
   const ryba = data.ryba ?? '';
-  const waga = data.waga ?? 0;
-  const medal = getMedalForCatch(ryba, waga);
-  const xp = getXpForCatch(ryba, waga);
+  const medal = getBestMedalForCatch(ryba, data.waga, data.dlugoscCm);
+  const xp = getTotalXpForCatch(ryba, data.waga, data.dlugoscCm);
 
   await catchRef.update({
     status: 'approved',

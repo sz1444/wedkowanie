@@ -94,15 +94,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 });
   }
 
-  const { ryba, waga, userId, autor, photo, photoHash } = body as Record<string, unknown>;
+  const { ryba, waga, dlugoscCm, userId, autor, photo, photoHash } = body as Record<string, unknown>;
 
   if (typeof ryba !== 'string' || typeof userId !== 'string' || typeof autor !== 'string') {
     return NextResponse.json({ error: 'Missing required fields.' }, { status: 400 });
   }
 
-  const wagaNum = parseFloat(String(waga));
-  if (isNaN(wagaNum) || wagaNum <= 0 || wagaNum > 300) {
-    return NextResponse.json({ error: 'Invalid weight.' }, { status: 400 });
+  const wagaNum = waga != null ? parseFloat(String(waga)) : NaN;
+  const dlugoscNum = dlugoscCm != null ? parseFloat(String(dlugoscCm)) : NaN;
+  const hasWaga = !isNaN(wagaNum) && wagaNum > 0 && wagaNum <= 300;
+  const hasDlugosc = !isNaN(dlugoscNum) && dlugoscNum > 0 && dlugoscNum <= 500;
+
+  if (!hasWaga && !hasDlugosc) {
+    return NextResponse.json({ error: 'Podaj wagę (kg) lub długość (cm).' }, { status: 400 });
   }
 
   try {
@@ -121,7 +125,8 @@ export async function POST(req: NextRequest) {
 
     const ref = await db.collection(CATCHES_COLLECTION).add({
       ryba,
-      waga: wagaNum,
+      ...(hasWaga ? { waga: wagaNum } : {}),
+      ...(hasDlugosc ? { dlugoscCm: dlugoscNum } : {}),
       userId,
       autor,
       data: Date.now(),

@@ -173,7 +173,12 @@ export default function AdminTab({ adminUid, catches, xpByUid, rolesByUid, onRef
                       </span>
                     </div>
                     <p className="text-base font-black text-slate-800">{c.ryba}</p>
-                    <p className="text-sm font-bold text-slate-600">{c.waga} kg · {c.miejsce}</p>
+                    <p className="text-sm font-bold text-slate-600">
+                      {c.waga != null && <span>{c.waga} kg</span>}
+                      {c.waga != null && (c as unknown as { dlugoscCm?: number }).dlugoscCm != null && ' · '}
+                      {(c as unknown as { dlugoscCm?: number }).dlugoscCm != null && <span>{(c as unknown as { dlugoscCm: number }).dlugoscCm} cm</span>}
+                      {c.miejsce && ` · ${c.miejsce}`}
+                    </p>
                     <p className="text-[11px] font-bold text-slate-400 mt-1">{c.autor}</p>
                     {(c as unknown as { opis?: string }).opis && (
                       <p className="text-[11px] text-slate-400 mt-1 italic">&ldquo;{(c as unknown as { opis: string }).opis}&rdquo;</p>
@@ -301,7 +306,11 @@ export default function AdminTab({ adminUid, catches, xpByUid, rolesByUid, onRef
                             )}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-xs font-black text-slate-800">{c.ryba} · {c.waga} kg</p>
+                            <p className="text-xs font-black text-slate-800">
+                              {c.ryba}
+                              {c.waga != null && ` · ${c.waga} kg`}
+                              {(c as unknown as { dlugoscCm?: number }).dlugoscCm != null && ` · ${(c as unknown as { dlugoscCm: number }).dlugoscCm} cm`}
+                            </p>
                             <p className="text-[9px] font-bold text-slate-400">{c.miejsce}</p>
                           </div>
                           <div className="flex items-center gap-1.5 shrink-0">

@@ -23,8 +23,10 @@ export default function CatchCard({ catch: c, isRecord }: CatchCardProps) {
             <Camera size={28} className="text-slate-200" />
           </div>
         )}
-        <div className="absolute bottom-2 right-2 bg-slate-900/80 text-white font-black px-2.5 py-1 rounded-xl text-xl border border-slate-600">
-          {c.waga} kg
+        <div className="absolute bottom-2 right-2 bg-slate-900/80 text-white font-black px-2.5 py-1 rounded-xl text-xl border border-slate-600 flex items-baseline gap-1.5">
+          {c.waga != null && <span>{c.waga} <span className="text-sm font-bold text-slate-300">kg</span></span>}
+          {c.waga != null && c.dlugoscCm != null && <span className="text-slate-400 text-sm font-bold">·</span>}
+          {c.dlugoscCm != null && <span>{c.dlugoscCm} <span className="text-sm font-bold text-slate-300">cm</span></span>}
         </div>
         {cmc && (
           <div className={`absolute top-2 left-2 flex items-center gap-1 px-2 py-1 rounded-xl border ${cmc.bg} ${cmc.border}`}>

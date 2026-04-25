@@ -50,42 +50,45 @@ export type FishDexEntry = {
   progSrebro: number;
   progZloto: number;
   xpPerKg: number;
+  progSrebroCm: number;
+  progZlotoCm: number;
+  xpPerCm: number;
   rzadkosc: 'common' | 'uncommon' | 'rare' | 'legendary';
   kategoria: FishKategoria;
 };
 
 export const FISH_DEX: FishDexEntry[] = [
-  { nazwa: 'Szczupak',         icon: 'szczupak.jpeg',          color: '#16a34a', opis: 'Drapieżnik numer jeden polskich wód. Kły i błyskawiczne ataki przy szuwarach.',                        progSrebro: 5,    progZloto: 10,   xpPerKg: 700,  rzadkosc: 'uncommon',  kategoria: 'drapieznik'  },
-  { nazwa: 'Sandacz',          icon: 'sandacz.jpeg',           color: '#2563eb', opis: 'Nocny łowca preferujący twarde dno. Mięso najsmaczniejsze ze słodkowodnych.',                         progSrebro: 4,    progZloto: 8,    xpPerKg: 700,  rzadkosc: 'rare',      kategoria: 'drapieznik'  },
-  { nazwa: 'Sum',              icon: 'sum.jpeg',               color: '#7c3aed', opis: 'Największy drapieżnik słodkowodny Europy. Poluje nocą przy dnie głębokich rynien.',                    progSrebro: 20,   progZloto: 50,   xpPerKg: 200,  rzadkosc: 'legendary', kategoria: 'drapieznik'  },
-  { nazwa: 'Okoń',             icon: 'okon.jpg',               color: '#dc2626', opis: 'Zawzięty i barwny. Uderza stadnie, świetny na spinning lekki i małe gumy.',                           progSrebro: 0.5,  progZloto: 1,    xpPerKg: 500,  rzadkosc: 'common',    kategoria: 'drapieznik'  },
-  { nazwa: 'Boleń',            icon: 'bolen.jpeg',             color: '#0891b2', opis: 'Jedyny drapieżny karpiowaty. Goniący przy powierzchni, błyskawiczny jak strzała.',                    progSrebro: 2,    progZloto: 4,    xpPerKg: 800,  rzadkosc: 'rare',      kategoria: 'drapieznik'  },
-  { nazwa: 'Węgorz',           icon: 'wegorz.jpeg',            color: '#57534e', opis: 'Tajemniczy wędrowiec. Wędruje na tarło aż na Morze Sargassowe. Gatunek krytycznie zagrożony.',         progSrebro: 1,    progZloto: 2.5,  xpPerKg: 1000, rzadkosc: 'legendary', kategoria: 'rzeczne'     },
-  { nazwa: 'Miętus',           icon: 'mietus.jpeg',            color: '#6366f1', opis: 'Jedyny słodkowodny przedstawiciel dorszowatych w Polsce. Aktywny zimą, pod lodem.',                   progSrebro: 0.5,  progZloto: 1.5,  xpPerKg: 600,  rzadkosc: 'uncommon',  kategoria: 'rzeczne'     },
-  { nazwa: 'Karp',             icon: 'karp.jpeg',              color: '#b45309', opis: 'Legenda karpiowań. Walczący i inteligentny — wymaga precyzji i cierpliwości.',                        progSrebro: 8,    progZloto: 15,   xpPerKg: 150,  rzadkosc: 'uncommon',  kategoria: 'karpiowate'  },
-  { nazwa: 'Leszcz',           icon: 'leszcz.jpeg',            color: '#ca8a04', opis: 'Spokojny karpiowaty głębokich stanowisk. Wymaga cierpliwości i delikatnego sprzętu.',                 progSrebro: 1.5,  progZloto: 3,    xpPerKg: 350,  rzadkosc: 'common',    kategoria: 'biala'    },
-  { nazwa: 'Lin',              icon: 'lin.jpeg',               color: '#65a30d', opis: 'Cichy mieszkaniec roślinnych zatok. Złota łuska, lecznicze śluzy.',                                   progSrebro: 1,    progZloto: 2,    xpPerKg: 500,  rzadkosc: 'common',    kategoria: 'karpiowate'    },
-  { nazwa: 'Płoć',             icon: 'ploc.jpeg',              color: '#ef4444', opis: 'Najpopularniejsza ryba polskich wód. Srebrna łuska, czerwone oczy — nieodłączna towarzyszka wędkarzy.', progSrebro: 0.3, progZloto: 0.8,  xpPerKg: 400,  rzadkosc: 'common',    kategoria: 'biala'       },
-  { nazwa: 'Wzdręga',          icon: 'wzdrega.jpeg',           color: '#f97316', opis: 'Siostra płoci z czerwonymi płetwami. Lubi spokojne, zarośnięte wody.',                                progSrebro: 0.2,  progZloto: 0.5,  xpPerKg: 400,  rzadkosc: 'common',    kategoria: 'biala'       },
-  { nazwa: 'Karaś złocisty',   icon: 'karas-zlocisty.jpeg',    color: '#d97706', opis: 'Złoty pancernik polskich stawów. Przeżyje tam, gdzie inne ryby giną.',                                progSrebro: 0.5,  progZloto: 1.2,  xpPerKg: 350,  rzadkosc: 'common',    kategoria: 'karpiowate'  },
-  { nazwa: 'Karaś srebrzysty', icon: 'karas-srebrzysty.jpeg',  color: '#94a3b8', opis: 'Inwazyjny krewniak karasia złocistego. Bardzo wytrzymały, rośnie szybko.',                            progSrebro: 0.5,  progZloto: 1.5,  xpPerKg: 350,  rzadkosc: 'common',    kategoria: 'karpiowate'  },
-  { nazwa: 'Amur',             icon: 'amur.jpeg',              color: '#22c55e', opis: 'Azjatycki gigant karpiowatych. Żywi się roślinnością, osiąga imponujące rozmiary.',                   progSrebro: 5,    progZloto: 12,   xpPerKg: 180,  rzadkosc: 'uncommon',  kategoria: 'karpiowate'  },
-  { nazwa: 'Tołpyga',          icon: 'tolpyga.jpeg',           color: '#06b6d4', opis: 'Filtruje plankton z wody. Azjatycki gigant, który może ważyć ponad 40 kg.',                           progSrebro: 5,    progZloto: 15,   xpPerKg: 180,  rzadkosc: 'uncommon',  kategoria: 'karpiowate'  },
-  { nazwa: 'Krąp',             icon: 'krap.jpeg',              color: '#a16207', opis: 'Mały, wysoki karpiowaty z charakterystyczną czerwoną barwą płetw. Towarzyszy leszczowi.',             progSrebro: 0.2,  progZloto: 0.5,  xpPerKg: 400,  rzadkosc: 'common',    kategoria: 'karpiowate'  },
-  { nazwa: 'Ukleja',           icon: 'ukleja.jpeg',            color: '#38bdf8', opis: 'Mała, błyszcząca rybka powierzchniowa. Ławice uklejek przyciągają większe drapieżniki.',             progSrebro: 0.05, progZloto: 0.12, xpPerKg: 700,  rzadkosc: 'common',    kategoria: 'biala'       },
-  { nazwa: 'Certa',            icon: 'certa.jpeg',             color: '#475569', opis: 'Wędrująca ryba rzek przymorskich. Coraz rzadsza, wymaga czystych rzek z dnem żwirowym.',              progSrebro: 0.8,  progZloto: 2,    xpPerKg: 1000, rzadkosc: 'rare',      kategoria: 'rzeczne'     },
-  { nazwa: 'Jaź',              icon: 'jaz.jpeg',               color: '#fbbf24', opis: 'Złociste łuski i czerwone oczy. Drapieżny o zmierzchu, łowi owady z powierzchni.',                   progSrebro: 0.8,  progZloto: 2,    xpPerKg: 500,  rzadkosc: 'uncommon',  kategoria: 'rzeczne'     },
-  { nazwa: 'Kleń',             icon: 'klen.jpeg',              color: '#84cc16', opis: 'Wszechstronny łowca rzek. Bierze na muchy, błystki i kawałki chleba.',                               progSrebro: 0.8,  progZloto: 2,    xpPerKg: 500,  rzadkosc: 'uncommon',  kategoria: 'rzeczne'     },
-  { nazwa: 'Pstrąg potokowy',  icon: 'pstrag-potokowy.jpeg',   color: '#0d9488', opis: 'Ryba czystych górskich strumieni. Symbol nietkniętej natury i czystych wód.',                        progSrebro: 0.5,  progZloto: 1.5,  xpPerKg: 800,  rzadkosc: 'uncommon',  kategoria: 'lososiowate' },
-  { nazwa: 'Pstrąg tęczowy',   icon: 'pstrag-teczowy.jpeg',    color: '#a855f7', opis: 'Kolorowy przybysz z Ameryki Północnej. Szybko rośnie, intensywnie walczy.',                          progSrebro: 0.8,  progZloto: 2,    xpPerKg: 800,  rzadkosc: 'uncommon',  kategoria: 'lososiowate' },
-  { nazwa: 'Lipień',           icon: 'lipien.jpeg',            color: '#8b5cf6', opis: 'Królowa górnych rzek. Chorągiewkowa płetwa grzbietowa, lśniące łuski, muchy na powierzchni.',        progSrebro: 0.5,  progZloto: 1.5,  xpPerKg: 1000, rzadkosc: 'rare',      kategoria: 'lososiowate' },
-  { nazwa: 'Głowacica',        icon: 'glowacica.jpeg',         color: '#9333ea', opis: 'Królowa podgórskich rzek. Chroniona, rzadka, imponująca. Największa ryba łososiowatych w Polsce.',   progSrebro: 5,    progZloto: 10,   xpPerKg: 1500, rzadkosc: 'legendary', kategoria: 'lososiowate' },
-  { nazwa: 'Brzana',           icon: 'brzana.jpeg',            color: '#f59e0b', opis: 'Ryba wartkich rzek z kamienistym dnem. Silna i szybka — dostarcza emocji na spławik i grunt.',      progSrebro: 1.5,  progZloto: 4,    xpPerKg: 600,  rzadkosc: 'uncommon',  kategoria: 'rzeczne'     },
-  { nazwa: 'Świnka',           icon: 'swinka.jpeg',            color: '#78716c', opis: 'Charakterystyczny pysk skierowany ku dołowi. Skrobie glony z kamieni, żyje w czystych rzekach.',    progSrebro: 0.3,  progZloto: 0.8,  xpPerKg: 500,  rzadkosc: 'uncommon',  kategoria: 'rzeczne'     },
-  { nazwa: 'Kiełb',            icon: 'kielb.jpeg',             color: '#a8a29e', opis: 'Mały, ale hardy. Żyje przy dnie w czystych, wartkich wodach. Wskaźnik czystości rzeki.',             progSrebro: 0.05, progZloto: 0.15, xpPerKg: 600,  rzadkosc: 'common',    kategoria: 'rzeczne'     },
-  { nazwa: 'Jazgarz',          icon: 'jazgarz.jpeg',           color: '#f43f5e', opis: 'Miniaturowy okoń z kolcami na pokrywach skrzelowych. Łapczywy, agresywny, wszechobecny.',            progSrebro: 0.05, progZloto: 0.15, xpPerKg: 600,  rzadkosc: 'common',    kategoria: 'drapieznik'  },
-  { nazwa: 'Słonecznica',      icon: 'slonecznica.jpeg',       color: '#fb923c', opis: 'Kolorowy przybysz z Ameryki. Mała i piękna — lubi ciepłe, zarośnięte zatoki.',                      progSrebro: 0.05, progZloto: 0.1,  xpPerKg: 700,  rzadkosc: 'uncommon',  kategoria: 'karpiowate'    },
-  { nazwa: 'Różanka',          icon: 'rozanka.jpeg',           color: '#ec4899', opis: 'Najmniejsza polska ryba objęta ochroną. Składa jaja w płaszczu małży — cud natury.',                 progSrebro: 0.01, progZloto: 0.03, xpPerKg: 5000, rzadkosc: 'rare',      kategoria: 'rzeczne'     },
+  { nazwa: 'Szczupak',         icon: 'szczupak.jpeg',         color: '#16a34a', opis: 'Drapieżnik numer jeden polskich wód. Kły i błyskawiczne ataki przy szuwarach.',                          progSrebro: 5,    progZloto: 10,   xpPerKg: 700,  progSrebroCm: 70,  progZlotoCm: 100, xpPerCm: 35,  rzadkosc: 'uncommon',  kategoria: 'drapieznik'  },
+  { nazwa: 'Sandacz',          icon: 'sandacz.jpeg',          color: '#2563eb', opis: 'Nocny łowca preferujący twarde dno. Mięso najsmaczniejsze ze słodkowodnych.',                           progSrebro: 4,    progZloto: 8,    xpPerKg: 700,  progSrebroCm: 60,  progZlotoCm: 80,  xpPerCm: 40,  rzadkosc: 'rare',      kategoria: 'drapieznik'  },
+  { nazwa: 'Sum',              icon: 'sum.jpeg',              color: '#7c3aed', opis: 'Największy drapieżnik słodkowodny Europy. Poluje nocą przy dnie głębokich rynien.',                      progSrebro: 20,   progZloto: 50,   xpPerKg: 200,  progSrebroCm: 130, progZlotoCm: 200, xpPerCm: 10,  rzadkosc: 'legendary', kategoria: 'drapieznik'  },
+  { nazwa: 'Okoń',             icon: 'okon.jpg',              color: '#dc2626', opis: 'Zawzięty i barwny. Uderza stadnie, świetny na spinning lekki i małe gumy.',                             progSrebro: 0.5,  progZloto: 1,    xpPerKg: 500,  progSrebroCm: 25,  progZlotoCm: 35,  xpPerCm: 15,  rzadkosc: 'common',    kategoria: 'drapieznik'  },
+  { nazwa: 'Boleń',            icon: 'bolen.jpeg',            color: '#0891b2', opis: 'Jedyny drapieżny karpiowaty. Goniący przy powierzchni, błyskawiczny jak strzała.',                      progSrebro: 2,    progZloto: 4,    xpPerKg: 800,  progSrebroCm: 45,  progZlotoCm: 65,  xpPerCm: 45,  rzadkosc: 'rare',      kategoria: 'drapieznik'  },
+  { nazwa: 'Węgorz',           icon: 'wegorz.jpeg',           color: '#57534e', opis: 'Tajemniczy wędrowiec. Wędruje na tarło aż na Morze Sargassowe. Gatunek krytycznie zagrożony.',           progSrebro: 1,    progZloto: 2.5,  xpPerKg: 1000, progSrebroCm: 55,  progZlotoCm: 80,  xpPerCm: 60,  rzadkosc: 'legendary', kategoria: 'rzeczne'     },
+  { nazwa: 'Miętus',           icon: 'mietus.jpeg',           color: '#6366f1', opis: 'Jedyny słodkowodny przedstawiciel dorszowatych w Polsce. Aktywny zimą, pod lodem.',                     progSrebro: 0.5,  progZloto: 1.5,  xpPerKg: 600,  progSrebroCm: 30,  progZlotoCm: 45,  xpPerCm: 35,  rzadkosc: 'uncommon',  kategoria: 'rzeczne'     },
+  { nazwa: 'Karp',             icon: 'karp.jpeg',             color: '#b45309', opis: 'Legenda karpiowań. Walczący i inteligentny — wymaga precyzji i cierpliwości.',                          progSrebro: 8,    progZloto: 15,   xpPerKg: 150,  progSrebroCm: 55,  progZlotoCm: 75,  xpPerCm: 8,   rzadkosc: 'uncommon',  kategoria: 'karpiowate'  },
+  { nazwa: 'Leszcz',           icon: 'leszcz.jpeg',           color: '#ca8a04', opis: 'Spokojny karpiowaty głębokich stanowisk. Wymaga cierpliwości i delikatnego sprzętu.',                   progSrebro: 1.5,  progZloto: 3,    xpPerKg: 350,  progSrebroCm: 35,  progZlotoCm: 50,  xpPerCm: 20,  rzadkosc: 'common',    kategoria: 'biala'       },
+  { nazwa: 'Lin',              icon: 'lin.jpeg',              color: '#65a30d', opis: 'Cichy mieszkaniec roślinnych zatok. Złota łuska, lecznicze śluzy.',                                     progSrebro: 1,    progZloto: 2,    xpPerKg: 500,  progSrebroCm: 35,  progZlotoCm: 50,  xpPerCm: 28,  rzadkosc: 'common',    kategoria: 'karpiowate'  },
+  { nazwa: 'Płoć',             icon: 'ploc.jpeg',             color: '#ef4444', opis: 'Najpopularniejsza ryba polskich wód. Srebrna łuska, czerwone oczy — nieodłączna towarzyszka wędkarzy.',  progSrebro: 0.3,  progZloto: 0.8,  xpPerKg: 400,  progSrebroCm: 22,  progZlotoCm: 32,  xpPerCm: 22,  rzadkosc: 'common',    kategoria: 'biala'       },
+  { nazwa: 'Wzdręga',          icon: 'wzdrega.jpeg',          color: '#f97316', opis: 'Siostra płoci z czerwonymi płetwami. Lubi spokojne, zarośnięte wody.',                                  progSrebro: 0.2,  progZloto: 0.5,  xpPerKg: 400,  progSrebroCm: 18,  progZlotoCm: 26,  xpPerCm: 22,  rzadkosc: 'common',    kategoria: 'biala'       },
+  { nazwa: 'Karaś złocisty',   icon: 'karas-zlocisty.jpeg',   color: '#d97706', opis: 'Złoty pancernik polskich stawów. Przeżyje tam, gdzie inne ryby giną.',                                  progSrebro: 0.5,  progZloto: 1.2,  xpPerKg: 350,  progSrebroCm: 22,  progZlotoCm: 32,  xpPerCm: 20,  rzadkosc: 'common',    kategoria: 'karpiowate'  },
+  { nazwa: 'Karaś srebrzysty', icon: 'karas-srebrzysty.jpeg', color: '#94a3b8', opis: 'Inwazyjny krewniak karasia złocistego. Bardzo wytrzymały, rośnie szybko.',                              progSrebro: 0.5,  progZloto: 1.5,  xpPerKg: 350,  progSrebroCm: 22,  progZlotoCm: 35,  xpPerCm: 20,  rzadkosc: 'common',    kategoria: 'karpiowate'  },
+  { nazwa: 'Amur',             icon: 'amur.jpeg',             color: '#22c55e', opis: 'Azjatycki gigant karpiowatych. Żywi się roślinnością, osiąga imponujące rozmiary.',                     progSrebro: 5,    progZloto: 12,   xpPerKg: 180,  progSrebroCm: 65,  progZlotoCm: 90,  xpPerCm: 10,  rzadkosc: 'uncommon',  kategoria: 'karpiowate'  },
+  { nazwa: 'Tołpyga',          icon: 'tolpyga.jpeg',          color: '#06b6d4', opis: 'Filtruje plankton z wody. Azjatycki gigant, który może ważyć ponad 40 kg.',                             progSrebro: 5,    progZloto: 15,   xpPerKg: 180,  progSrebroCm: 70,  progZlotoCm: 100, xpPerCm: 10,  rzadkosc: 'uncommon',  kategoria: 'karpiowate'  },
+  { nazwa: 'Krąp',             icon: 'krap.jpeg',             color: '#a16207', opis: 'Mały, wysoki karpiowaty z charakterystyczną czerwoną barwą płetw. Towarzyszy leszczowi.',               progSrebro: 0.2,  progZloto: 0.5,  xpPerKg: 400,  progSrebroCm: 18,  progZlotoCm: 26,  xpPerCm: 22,  rzadkosc: 'common',    kategoria: 'karpiowate'  },
+  { nazwa: 'Ukleja',           icon: 'ukleja.jpeg',           color: '#38bdf8', opis: 'Mała, błyszcząca rybka powierzchniowa. Ławice uklejek przyciągają większe drapieżniki.',               progSrebro: 0.05, progZloto: 0.12, xpPerKg: 700,  progSrebroCm: 12,  progZlotoCm: 18,  xpPerCm: 40,  rzadkosc: 'common',    kategoria: 'biala'       },
+  { nazwa: 'Certa',            icon: 'certa.jpeg',            color: '#475569', opis: 'Wędrująca ryba rzek przymorskich. Coraz rzadsza, wymaga czystych rzek z dnem żwirowym.',                progSrebro: 0.8,  progZloto: 2,    xpPerKg: 1000, progSrebroCm: 35,  progZlotoCm: 50,  xpPerCm: 55,  rzadkosc: 'rare',      kategoria: 'rzeczne'     },
+  { nazwa: 'Jaź',              icon: 'jaz.jpeg',              color: '#fbbf24', opis: 'Złociste łuski i czerwone oczy. Drapieżny o zmierzchu, łowi owady z powierzchni.',                     progSrebro: 0.8,  progZloto: 2,    xpPerKg: 500,  progSrebroCm: 30,  progZlotoCm: 45,  xpPerCm: 28,  rzadkosc: 'uncommon',  kategoria: 'rzeczne'     },
+  { nazwa: 'Kleń',             icon: 'klen.jpeg',             color: '#84cc16', opis: 'Wszechstronny łowca rzek. Bierze na muchy, błystki i kawałki chleba.',                                 progSrebro: 0.8,  progZloto: 2,    xpPerKg: 500,  progSrebroCm: 30,  progZlotoCm: 45,  xpPerCm: 28,  rzadkosc: 'uncommon',  kategoria: 'rzeczne'     },
+  { nazwa: 'Pstrąg potokowy',  icon: 'pstrag-potokowy.jpeg',  color: '#0d9488', opis: 'Ryba czystych górskich strumieni. Symbol nietkniętej natury i czystych wód.',                          progSrebro: 0.5,  progZloto: 1.5,  xpPerKg: 800,  progSrebroCm: 28,  progZlotoCm: 42,  xpPerCm: 45,  rzadkosc: 'uncommon',  kategoria: 'lososiowate' },
+  { nazwa: 'Pstrąg tęczowy',   icon: 'pstrag-teczowy.jpeg',  color: '#a855f7', opis: 'Kolorowy przybysz z Ameryki Północnej. Szybko rośnie, intensywnie walczy.',                            progSrebro: 0.8,  progZloto: 2,    xpPerKg: 800,  progSrebroCm: 32,  progZlotoCm: 50,  xpPerCm: 45,  rzadkosc: 'uncommon',  kategoria: 'lososiowate' },
+  { nazwa: 'Lipień',           icon: 'lipien.jpeg',           color: '#8b5cf6', opis: 'Królowa górnych rzek. Chorągiewkowa płetwa grzbietowa, lśniące łuski, muchy na powierzchni.',          progSrebro: 0.5,  progZloto: 1.5,  xpPerKg: 1000, progSrebroCm: 28,  progZlotoCm: 42,  xpPerCm: 55,  rzadkosc: 'rare',      kategoria: 'lososiowate' },
+  { nazwa: 'Głowacica',        icon: 'glowacica.jpeg',        color: '#9333ea', opis: 'Królowa podgórskich rzek. Chroniona, rzadka, imponująca. Największa ryba łososiowatych w Polsce.',     progSrebro: 5,    progZloto: 10,   xpPerKg: 1500, progSrebroCm: 80,  progZlotoCm: 120, xpPerCm: 85,  rzadkosc: 'legendary', kategoria: 'lososiowate' },
+  { nazwa: 'Brzana',           icon: 'brzana.jpeg',           color: '#f59e0b', opis: 'Ryba wartkich rzek z kamienistym dnem. Silna i szybka — dostarcza emocji na spławik i grunt.',        progSrebro: 1.5,  progZloto: 4,    xpPerKg: 600,  progSrebroCm: 40,  progZlotoCm: 60,  xpPerCm: 33,  rzadkosc: 'uncommon',  kategoria: 'rzeczne'     },
+  { nazwa: 'Świnka',           icon: 'swinka.jpeg',           color: '#78716c', opis: 'Charakterystyczny pysk skierowany ku dołowi. Skrobie glony z kamieni, żyje w czystych rzekach.',      progSrebro: 0.3,  progZloto: 0.8,  xpPerKg: 500,  progSrebroCm: 22,  progZlotoCm: 32,  xpPerCm: 28,  rzadkosc: 'uncommon',  kategoria: 'rzeczne'     },
+  { nazwa: 'Kiełb',            icon: 'kielb.jpeg',            color: '#a8a29e', opis: 'Mały, ale hardy. Żyje przy dnie w czystych, wartkich wodach. Wskaźnik czystości rzeki.',               progSrebro: 0.05, progZloto: 0.15, xpPerKg: 600,  progSrebroCm: 10,  progZlotoCm: 16,  xpPerCm: 35,  rzadkosc: 'common',    kategoria: 'rzeczne'     },
+  { nazwa: 'Jazgarz',          icon: 'jazgarz.jpeg',          color: '#f43f5e', opis: 'Miniaturowy okoń z kolcami na pokrywach skrzelowych. Łapczywy, agresywny, wszechobecny.',              progSrebro: 0.05, progZloto: 0.15, xpPerKg: 600,  progSrebroCm: 10,  progZlotoCm: 16,  xpPerCm: 35,  rzadkosc: 'common',    kategoria: 'drapieznik'  },
+  { nazwa: 'Słonecznica',      icon: 'slonecznica.jpeg',      color: '#fb923c', opis: 'Kolorowy przybysz z Ameryki. Mała i piękna — lubi ciepłe, zarośnięte zatoki.',                        progSrebro: 0.05, progZloto: 0.1,  xpPerKg: 700,  progSrebroCm: 10,  progZlotoCm: 15,  xpPerCm: 40,  rzadkosc: 'uncommon',  kategoria: 'karpiowate'  },
+  { nazwa: 'Różanka',          icon: 'rozanka.jpeg',          color: '#ec4899', opis: 'Najmniejsza polska ryba objęta ochroną. Składa jaja w płaszczu małży — cud natury.',                   progSrebro: 0.01, progZloto: 0.03, xpPerKg: 5000, progSrebroCm: 4,   progZlotoCm: 7,   xpPerCm: 280, rzadkosc: 'rare',      kategoria: 'rzeczne'     },
 ];
 
 export type XpTier = {
@@ -159,10 +162,37 @@ export function getMedalForCatch(ryba: string, waga: number): Medal {
   return 'bronze';
 }
 
+export function getMedalForCatchCm(ryba: string, dlugoscCm: number): Medal {
+  const entry = FISH_DEX.find((f) => f.nazwa === ryba);
+  if (!entry) return 'bronze';
+  if (dlugoscCm >= entry.progZlotoCm) return 'gold';
+  if (dlugoscCm >= entry.progSrebroCm) return 'silver';
+  return 'bronze';
+}
+
 export function getXpForCatch(ryba: string, waga: number): number {
   const entry = FISH_DEX.find((f) => f.nazwa === ryba);
   if (!entry) return Math.round(waga * 100);
   return Math.round(waga * entry.xpPerKg);
+}
+
+export function getXpForCatchCm(ryba: string, dlugoscCm: number): number {
+  const entry = FISH_DEX.find((f) => f.nazwa === ryba);
+  if (!entry) return Math.round(dlugoscCm * 10);
+  return Math.round(dlugoscCm * entry.xpPerCm);
+}
+
+export function getBestMedalForCatch(ryba: string, waga: number | undefined, dlugoscCm: number | undefined): Medal {
+  const medalKg = waga != null && waga > 0 ? getMedalForCatch(ryba, waga) : 'bronze';
+  const medalCm = dlugoscCm != null && dlugoscCm > 0 ? getMedalForCatchCm(ryba, dlugoscCm) : 'bronze';
+  const order: Medal[] = ['bronze', 'silver', 'gold'];
+  return order.indexOf(medalKg) >= order.indexOf(medalCm) ? medalKg : medalCm;
+}
+
+export function getTotalXpForCatch(ryba: string, waga: number | undefined, dlugoscCm: number | undefined): number {
+  const xpKg = waga != null && waga > 0 ? getXpForCatch(ryba, waga) : 0;
+  const xpCm = dlugoscCm != null && dlugoscCm > 0 ? getXpForCatchCm(ryba, dlugoscCm) : 0;
+  return Math.max(xpKg, xpCm);
 }
 
 function xpForLevel(level: number): number {
@@ -268,7 +298,8 @@ export const REACTION_EMOJIS: (keyof Reactions)[] = ['🔥', '👏', '😮', '�
 export type FishCatch = {
   id: string;
   ryba: string;
-  waga: number;
+  waga?: number;
+  dlugoscCm?: number;
   miejsce: string;
   userId: string;
   autor: string;
