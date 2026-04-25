@@ -10,7 +10,7 @@ interface ProfileGalleryProps {
 }
 
 export default function ProfileGallery({ myCatches }: ProfileGalleryProps) {
-  const verified = myCatches.filter((c) => c.aiVerified === true && c.photo);
+  const verified = myCatches.filter((c) => c.aiVerified === true);
   const pending = myCatches.filter((c) => c.aiVerified !== true);
 
   const myRecordByCatch = new Map<string, FishCatch>();
