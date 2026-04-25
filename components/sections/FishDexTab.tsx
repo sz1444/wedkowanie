@@ -1,7 +1,7 @@
 'use client';
 
-import { useMemo } from 'react';
-import { FishingHook, Lock, List, ImageOff } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { FishingHook, Lock, List, Search } from 'lucide-react';
 import SectionHeader from '@/components/ui/SectionHeader';
 import CTAButton from '@/components/ui/CTAButton';
 import AllCatchesView from '@/components/sections/AllCatchesView';
@@ -20,9 +20,12 @@ interface FishDexTabProps {
   selectedSpecies: string | null;
   onSelectSpecies: (species: string) => void;
   onBack: () => void;
+  onAddCatch: () => void;
 }
 
 export default function FishDexTab({ myCatches, selectedSpecies, onSelectSpecies, onBack }: FishDexTabProps) {
+  const [query, setQuery] = useState('');
+
   const dexState = useMemo(() => {
     const map: Record<string, { waga: number; medal: Medal; count: number }> = {};
     for (const c of myCatches) {
@@ -43,6 +46,9 @@ export default function FishDexTab({ myCatches, selectedSpecies, onSelectSpecies
 
   const discovered = Object.keys(dexState).length;
   const total = FISH_DEX.length;
+  const filteredDex = query.trim()
+    ? FISH_DEX.filter((f) => f.nazwa.toLowerCase().includes(query.toLowerCase()))
+    : FISH_DEX;
 
   return (
     <div className="space-y-8 pb-10">
@@ -60,30 +66,28 @@ export default function FishDexTab({ myCatches, selectedSpecies, onSelectSpecies
         </div>
       </SectionHeader>
 
-      {myCatches.length > 0 && (
-        <CTAButton
-          icon={List}
-          title="Wszystkie złowione ryby"
-          subtitle={`${myCatches.length} ${myCatches.length === 1 ? 'sztuka' : myCatches.length < 5 ? 'sztuki' : 'sztuk'} · pełna historia`}
-          onClick={() => onSelectSpecies(ALL_VIEW)}
+      <div className="flex items-center gap-2 bg-white border border-slate-100 rounded-xl px-3 py-4">
+        <Search size={13} className="text-slate-300 shrink-0" />
+        <input
+          type="text"
+          placeholder="Szukaj gatunku..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="bg-transparent text-sm font-bold text-slate-700 placeholder:font-normal placeholder:text-slate-300 outline-none w-full"
         />
-      )}
+      </div>
 
-      <div className="grid grid-cols- sm:grid-cols-2 gap-4">
-        {FISH_DEX.map((fish) => {
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {filteredDex.map((fish) => {
           const caught = dexState[fish.nazwa];
           const isDiscovered = !!caught;
           const mc = caught ? MEDAL_COLORS[caught.medal] : null;
           return (
-            <button
+            <div
               key={fish.nazwa}
-              onClick={() => isDiscovered && onSelectSpecies(fish.nazwa)}
-              disabled={!isDiscovered}
-              className={`group rounded-4xl border-2 overflow-hidden transition-all duration-200 h-full flex flex-col text-left ${
-                isDiscovered ? 'border-slate-100 hover:-translate-y-0.5 cursor-pointer' : 'border-slate-100 opacity-55 grayscale cursor-default'
-              }`}
+              className={`group rounded-4xl border-2 overflow-hidden transition-all duration-200 h-full flex flex-col text-left border-slate-100 relative`}
             >
-              <div className={`p-4 md:p-8 flex flex-col gap-4 flex-1 bg-white`}>
+              <div className="p-4 md:p-8 flex flex-col gap-4 flex-1 bg-white">
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-3">
                     <div className="w-16 h-16 relative overflow-hidden rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: `${fish.color}18` }}>
@@ -104,20 +108,33 @@ export default function FishDexTab({ myCatches, selectedSpecies, onSelectSpecies
                     : <div className="p-1.5 bg-slate-100 rounded-xl text-slate-300 shrink-0"><Lock size={14} /></div>}
                 </div>
                 {isDiscovered && caught ? (
-                  <>
-                    <span className="mt-2 bg-slate-900 text-white text-center font-black text-base py-3 px-10 rounded-xl active:scale-95 transition-all">Zobacz szczegóły</span>
-                  </>
+                  <button
+                    onClick={() => onSelectSpecies(fish.nazwa)}
+                    className="mt-2 bg-slate-900 text-white text-center font-black text-base py-3 px-10 rounded-xl active:scale-95 transition-all"
+                  >
+                    Zobacz szczegóły
+                  </button>
                 ) : (
                   <div className="flex-1 flex flex-col items-center justify-center py-3 gap-2 absolute inset-0 bg-white/10 backdrop-blur-sm">
                     <Lock size={18} className="text-black" />
-                    <p className="text-[10px] font-bold text-black uppercase tracking-widest text-center">{fish.nazwa}</p>
+                    <p className="text-[10px] font-bold text-black uppercase tracking-widest text-center">{fish.nazwa} </p>
+
+                     <p className="text-[12px]  text-slate-600 text-center"> Złap aby odblokować</p>
                   </div>
                 )}
               </div>
-            </button>
+            </div>
           );
         })}
       </div>
+            {myCatches.length > 0 && (
+        <CTAButton
+          icon={List}
+          title="Wszystkie złowione ryby"
+          subtitle={`${myCatches.length} ${myCatches.length === 1 ? 'sztuka' : myCatches.length < 5 ? 'sztuki' : 'sztuk'} · pełna historia`}
+          onClick={() => onSelectSpecies(ALL_VIEW)}
+        />
+      )}
     </div>
   );
 }

@@ -17,6 +17,7 @@ function FishDexContent() {
       selectedSpecies={selectedSpecies}
       onSelectSpecies={(s) => router.push(`/fishdex?species=${encodeURIComponent(s)}`)}
       onBack={() => router.push('/fishdex')}
+      onAddCatch={() => router.push('/add')}
     />
   );
 }
