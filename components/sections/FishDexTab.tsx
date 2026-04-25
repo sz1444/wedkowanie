@@ -151,36 +151,27 @@ export default function FishDexTab({ myCatches, selectedSpecies, onSelectSpecies
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-black text-slate-900 uppercase tracking-tight leading-tight">{fish.nazwa}</p>
-                  <p className={`text-[9px] font-black uppercase tracking-widest ${RARENESS_COLORS[fish.rzadkosc]}`}>
+                  <p className={`text-[8px]  uppercase tracking-widest`}>
                     {RARENESS_LABELS[fish.rzadkosc]}
                   </p>
                 </div>
               </div>
 
               {/* STATS ROW */}
-              <div className="flex gap-4 justify-between">
-                <div className='bg-slate-50 w-full flex flex-col justify-center items-center border-slate-200 rounded-lg py-1'>
-                  <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Rekord</p>
-                  <p className="text-base font-black text-slate-900 leading-tight">{caught.waga} <span className="text-xs font-bold text-slate-400">kg</span></p>
-                </div>
-                <div className='bg-slate-50 w-full flex flex-col justify-center items-center border-slate-200 rounded-lg py-1'>
-                  <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Wszystkich</p>
-                  <p className="text-base font-black text-slate-900 leading-tight">{caught.count} <span className="text-xs font-bold text-slate-400">szt.</span></p>
-                </div>
-              </div>
+          
 
               {/* PROGRESS BAR */}
               {rankProgress && (
                 <div className="space-y-1">
                   <div className="flex justify-between items-center">
                     <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">
-                      Progres Lv.{fishRank.level}{rankProgress.next ? ` → Lv.${fishRank.level + 1}` : ''}
+                      {fishRank.title}{rankProgress.next ? ` → ${rankProgress.next.title}` : ''}
                     </p>
-                    <p className={`text-[8px] font-black ${fishRank.color.text}`}>{rankProgress.progress}%</p>
+                    <p className={`text-[8px] font-black`}>{rankProgress.progress}%</p>
                   </div>
                   <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
                     <div
-                      className={`h-full rounded-full transition-all duration-700 ${fishRank.color.progressBar}`}
+                      className={`h-full rounded-full transition-all duration-700 bg-slate-500`}
                       style={{ width: `${rankProgress.progress}%` }}
                     />
                   </div>
