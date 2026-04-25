@@ -35,7 +35,6 @@ const ALL_VIEW = '__all__';
 export default function ProfileTab({ user, analytics, onFishDex, nick, onNickSave }: ProfileTabProps) {
   const lvl = getLevelFromXp(analytics.totalXp);
   const fishRanks = getAllFishRanksSorted(analytics.myCatches);
-  const topRank = fishRanks[0] ?? null;
   const displayNick = nick ?? user.email?.split('@')[0] ?? 'Angler';
   const router = useRouter();
 
@@ -109,16 +108,11 @@ export default function ProfileTab({ user, analytics, onFishDex, nick, onNickSav
           </div>
           {fishRanks.length > 0 && (
             <div className="mt-3 flex items-center gap-1.5 flex-wrap">
-              {topRank && (
-                <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-lg border ${topRank.rank.color.bg} ${topRank.rank.color.text} ${topRank.rank.color.border}`}>
-                  {getFishRankTitle(topRank.rank.title, topRank.ryba)}
+              {fishRanks.map(({ rank, ryba }) => (
+                <span key={ryba} className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-lg border ${rank.color.bg} ${rank.color.text} ${rank.color.border}`}>
+                  {getFishRankTitle(rank.title, ryba)}
                 </span>
-              )}
-              {fishRanks.length > 1 && (
-                <span className="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-lg border bg-slate-50 text-slate-400 border-slate-200">
-                  +{fishRanks.length - 1}
-                </span>
-              )}
+              ))}
             </div>
           )}
         </div>

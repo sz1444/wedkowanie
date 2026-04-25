@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import NickBadge from '../ui/NickBadge';
 import { MEDAL_COLORS, getLevelFromXp } from '@/lib/fishing-data';
-import { getBestFishRank, getFishRankTitle } from '@/lib/fish-ranks';
+import { getAllFishRanksSorted, getFishRankTitle } from '@/lib/fish-ranks';
 import { X, Fish, Scale, MapPin, ShieldCheck, Trophy } from 'lucide-react';
 import type { FishCatch } from '@/lib/fishing-data';
 
@@ -16,7 +16,7 @@ interface UserCatchesModalProps {
 }
 
 export default function UserCatchesModal({ nick, totalXp, roles, catches, onClose }: UserCatchesModalProps) {
-  const bestFishRank = getBestFishRank(catches);
+  const fishRanks = getAllFishRanksSorted(catches);
 
   const stats = useMemo(() => {
     const verified = catches.filter((c) => c.aiVerified === true);
@@ -42,11 +42,11 @@ export default function UserCatchesModal({ nick, totalXp, roles, catches, onClos
               <div className="min-w-0">
                 <NickBadge nick={nick} xp={totalXp} size="md" />
                 <div className="flex items-center gap-1.5 mt-1 flex-wrap">
-                  {bestFishRank && (
-                    <span className={`text-[8px] font-black px-1.5 py-0.5 rounded-md border ${bestFishRank.rank.color.bg} ${bestFishRank.rank.color.text} ${bestFishRank.rank.color.border}`}>
-                      {getFishRankTitle(bestFishRank.rank.title, bestFishRank.ryba)}
+                  {fishRanks.map(({ rank, ryba }) => (
+                    <span key={ryba} className={`text-[8px] font-black px-1.5 py-0.5 rounded-md border ${rank.color.bg} ${rank.color.text} ${rank.color.border}`}>
+                      {getFishRankTitle(rank.title, ryba)}
                     </span>
-                  )}
+                  ))}
                   {roles.includes('admin') && (
                     <span className="text-[8px] font-black px-1.5 py-0.5 rounded-md border bg-red-50 text-red-600 border-red-200">Admin</span>
                   )}
@@ -78,7 +78,7 @@ export default function UserCatchesModal({ nick, totalXp, roles, catches, onClos
         </div>
 
         {/* CATCHES LIST */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto max-h-40">
           {catches.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-slate-300">
               <Fish size={36} strokeWidth={1.5} />

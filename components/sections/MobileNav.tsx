@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useRef, useCallback } from 'react';
-import { Home, FishingHook, Trophy, Plus } from 'lucide-react';
+import { Home, FishingHook, Trophy, Plus, User } from 'lucide-react';
 
 const LEFT_NAV = [
   { href: '/feed',    icon: Home,        label: 'Home' },
@@ -11,6 +11,7 @@ const LEFT_NAV = [
 
 const RIGHT_NAV = [
   { href: '/rankings/xp', icon: Trophy, label: 'Rankingi', match: '/rankings' },
+  { href: '/profile',     icon: User,   label: 'Profil' },
 ];
 
 export default function MobileNav() {
