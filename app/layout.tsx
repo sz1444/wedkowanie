@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import AppShell from '@/components/sections/AppShell';
 import SwRegister from '@/components/ui/SwRegister';
+import InstallPwa from '@/components/ui/InstallPwa';
 
 export const metadata: Metadata = {
   title: 'FishRank – Universal Pro',
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="antialiased bg-slate-50">
         <AppShell>{children}</AppShell>
         <SwRegister />
+        <InstallPwa />
       </body>
     </html>
   );
