@@ -42,7 +42,6 @@ export default function SpeciesDetail({ species, myCatches, dexState, onBack }: 
           </div>
           <div className="min-w-0">
             <h2 className="text-2xl font-black tracking-tight text-slate-900 uppercase leading-none">{species}</h2>
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">{fishDef.opis}</p>
           </div>
         </div>
         {mc && (
@@ -53,18 +52,20 @@ export default function SpeciesDetail({ species, myCatches, dexState, onBack }: 
         )}
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        {[
-          { label: 'Życiówka', value: best ? `${best.waga} kg` : '—', color: 'text-emerald-800' },
-          { label: 'Sztuk', value: String(speciesCatches.length), color: 'text-slate-800' },
-          { label: 'XP zdobyte', value: String(totalXp), color: 'text-slate-800' },
-          { label: 'Max XP', value: String(Math.round(fishDef.progZloto * fishDef.xpPerKg)), color: 'text-slate-800' },
-        ].map(({ label, value, color }) => (
-          <div key={label} className="bg-white rounded-xl p-5 border border-slate-100">
-            <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-1">{label}</p>
-            <p className={`text-xl font-black leading-none ${color}`}>{value}</p>
+      <div className="grid grid-cols-2 gap-3">
+        <div className="bg-white rounded-xl p-5 border border-slate-100 ">
+          <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-2">Rekord</p>
+          <div className="flex items-baseline gap-2 flex-wrap">
+            {best?.waga
+              ? <span className="text-xl font-black text-emerald-800">{best.waga} <span className="text-xs font-bold text-slate-400">kg</span></span>
+              : <span className="text-xl font-black text-slate-300">—</span>}
+            {(() => { const cm = speciesCatches.reduce((max, c) => Math.max(max, c.dlugoscCm ?? 0), 0); return cm > 0 ? <><span className="text-slate-300 font-bold">/</span><span className="text-xl font-black text-blue-700">{cm} <span className="text-xs font-bold text-slate-400">cm</span></span></> : null; })()}
           </div>
-        ))}
+        </div>
+        <div className="bg-white rounded-xl p-5 border border-slate-100">
+          <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-1">Sztuk</p>
+          <p className="text-xl font-black text-slate-800">{speciesCatches.length}</p>
+        </div>
       </div>
 
       <div className={`rounded-xl p-5 border space-y-3 ${rankProgress.rank.color.bg} ${rankProgress.rank.color.border}`}>

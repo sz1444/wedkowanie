@@ -37,13 +37,15 @@ export default function FishDexTab({ myCatches, selectedSpecies, onSelectSpecies
   const [filter, setFilter] = useState<Filter>('all');
 
   const dexState = useMemo(() => {
-    const map: Record<string, { waga: number; medal: Medal; count: number }> = {};
+    const map: Record<string, { waga: number; dlugoscCm: number; medal: Medal; count: number }> = {};
     for (const c of myCatches) {
       if (c.aiVerified !== true) continue;
       const waga = parseFloat(String(c.waga)) || 0;
+      const cm = c.dlugoscCm ?? 0;
       const prev = map[c.ryba];
       map[c.ryba] = {
         waga: prev ? Math.max(prev.waga, waga) : waga,
+        dlugoscCm: prev ? Math.max(prev.dlugoscCm, cm) : cm,
         medal: getMedalForCatch(c.ryba, prev ? Math.max(prev.waga, waga) : waga),
         count: (prev?.count ?? 0) + 1,
       };
@@ -137,17 +139,14 @@ export default function FishDexTab({ myCatches, selectedSpecies, onSelectSpecies
               onClick={() => onSelectSpecies(fish.nazwa)}
               className="bg-white border border-slate-100 rounded-2xl p-4 flex flex-col gap-3 text-left hover:border-slate-200 transition-colors active:scale-[0.98] transition-transform"
             >
-              <div className='-mb-2.5'>
-                <span className={`shrink-0 text-[7px] font-black uppercase tracking-widest px-2 py-1 rounded-lg  ${fishRank.color.bg} ${fishRank.color.text}`}>
-                  {fishRank.title}
-                </span>
-              </div>
               {/* TOP ROW */}
-              <div className="flex items-center gap-3">
-                <div className="relative shrink-0">
-                  <div className="w-14 h-14 relative overflow-hidden rounded-xl flex items-center justify-center" style={{ backgroundColor: `${fish.color}18` }}>
-                    <Image src={`/${fish.icon}`} alt={fish.nazwa} fill className="object-contain bg-white" sizes="56px" />
-                  </div>
+              <div className="flex justify-between items-center gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="relative shrink-0">
+                    <div className="w-14 h-14 relative overflow-hidden rounded-xl flex items-center justify-center" style={{ backgroundColor: `${fish.color}18` }}>
+                      <Image src={`/${fish.icon}`} alt={fish.nazwa} fill className="object-contain bg-white" sizes="56px" />
+                    </div>
+                  </div> 
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-black text-slate-900 uppercase tracking-tight leading-tight">{fish.nazwa}</p>
@@ -155,10 +154,27 @@ export default function FishDexTab({ myCatches, selectedSpecies, onSelectSpecies
                     {RARENESS_LABELS[fish.rzadkosc]}
                   </p>
                 </div>
+                  <span className={`shrink-0 text-[7px] font-black uppercase tracking-widest px-2 py-1 rounded-lg  ${fishRank.color.bg} ${fishRank.color.text}`}>
+                    {fishRank.title}
+                  </span>
               </div>
 
               {/* STATS ROW */}
-          
+              <div className="grid gap-2 grid-cols-2">
+                <div className="flex flex-col justify-center items-center bg-slate-50 rounded-xl px-3 py-1.5 border border-slate-100">
+                  <p className="text-[8px] text-slate-400 uppercase tracking-widest">Rekord</p>
+                  <div className="flex items-baseline gap-1 flex-wrap mt-0.5">
+                    {caught.waga > 0 && <span className="text-xs font-black text-emerald-800">{caught.waga} <span className="text-[9px] font-bold text-slate-400">kg</span></span>}
+                    {caught.waga > 0 && caught.dlugoscCm > 0 && <span className="text-[9px] text-slate-300">/</span>}
+                    {caught.dlugoscCm > 0 && <span className="text-xs font-black text-blue-700">{caught.dlugoscCm} <span className="text-[9px] font-bold text-slate-400">cm</span></span>}
+                    {caught.waga === 0 && caught.dlugoscCm === 0 && <span className="text-xs font-black text-slate-300">—</span>}
+                  </div>
+                </div>
+                <div className="bg-slate-50 rounded-xl px-3 py-1.5 border border-slate-100 text-center shrink-0">
+                  <p className="text-[8px] text-slate-400 uppercase tracking-widest">Sztuk</p>
+                  <p className="text-xs font-black text-slate-800 mt-0.5">{caught.count}</p>
+                </div>
+              </div>
 
               {/* PROGRESS BAR */}
               {rankProgress && (

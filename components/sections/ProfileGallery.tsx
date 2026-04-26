@@ -117,10 +117,9 @@ export default function ProfileGallery({ myCatches }: ProfileGalleryProps) {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-1.5">
+                  <div className="grid grid-cols-2 gap-1.5">
                     {[
                       { label: 'Rekord', value: recordValue, color: 'text-emerald-800' },
-                      { label: 'XP', value: String(c.xp ?? 0), color: 'text-slate-800' },
                       { label: 'Data', value: new Date(c.data).toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit' }), color: 'text-slate-800' },
                     ].map(({ label, value, color }) => (
                       <div key={label} className="bg-slate-50 rounded-xl px-2 py-2 border border-slate-100 text-center">

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Trophy, Star, Medal, Zap, FishingHook, Pencil, Check, X, List } from 'lucide-react';
+import { Trophy, Star, Medal, Zap, FishingHook, Pencil, Check, X, List, Fish } from 'lucide-react';
 import CTAButton from '@/components/ui/CTAButton';
 import ProfileGallery from '@/components/sections/ProfileGallery';
 import type { FishCatch, Reactions } from '@/lib/fishing-data';
@@ -132,12 +132,20 @@ export default function ProfileTab({ user, analytics, onFishDex, nick, onNickSav
       </div>
 
       {/* STATS */}
-      <div className="grid grid-cols-3 gap-3">
-        <div className="bg-emerald-800 p-5 rounded-4xl text-white flex flex-col items-center relative overflow-hidden group">
+      <div className="grid grid-cols-2 gap-3">
+        <div className="bg-emerald-800 p-5 rounded-4xl text-white flex flex-col items-center relative overflow-hidden group col-span-2 sm:col-span-1">
           <div className="p-2 bg-white/10 rounded-lg mb-2"><Medal size={18} /></div>
           <p className="text-[9px] font-black uppercase opacity-60 tracking-widest mb-1">Ranking</p>
           <p className="text-3xl font-black tracking-tight">#{analytics.rank}</p>
           <Medal size={80} className="absolute -right-5 -bottom-5 opacity-5 group-hover:rotate-12 transition-transform" />
+        </div>
+        <div className="bg-white p-5 rounded-4xl border border-slate-100 flex flex-col items-center col-span-2 sm:col-span-1">
+          <div className="p-2 bg-slate-50 rounded-lg mb-2"><Star size={18} className="text-yellow-500 opacity-50" /></div>
+          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Rekord</p>
+          <div className="flex items-baseline gap-1">
+            <p className="text-3xl font-black text-slate-800 tracking-tight">{analytics.best > 0 ? analytics.best : '—'}</p>
+            {analytics.best > 0 && <span className="text-sm font-black text-slate-400">kg</span>}
+          </div>
         </div>
         <div className="bg-white p-5 rounded-4xl border border-slate-100 flex flex-col items-center">
           <div className="p-2 bg-slate-50 rounded-lg mb-2"><Trophy size={18} className="text-emerald-800 opacity-50" /></div>
@@ -145,12 +153,9 @@ export default function ProfileTab({ user, analytics, onFishDex, nick, onNickSav
           <p className="text-3xl font-black text-slate-800 tracking-tight">{analytics.total}</p>
         </div>
         <div className="bg-white p-5 rounded-4xl border border-slate-100 flex flex-col items-center">
-          <div className="p-2 bg-slate-50 rounded-lg mb-2"><Star size={18} className="text-yellow-500 opacity-50" /></div>
-          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Rekord</p>
-          <div className="flex items-baseline gap-1">
-            <p className="text-3xl font-black text-slate-800 tracking-tight">{analytics.best}</p>
-            <span className="text-sm font-black text-slate-400">kg</span>
-          </div>
+          <div className="p-2 bg-slate-50 rounded-lg mb-2"><Fish size={18} className="text-emerald-600 opacity-50" /></div>
+          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Złowionych</p>
+          <p className="text-3xl font-black text-slate-800 tracking-tight">{analytics.myCatches.filter((c) => c.aiVerified).length}</p>
         </div>
       </div>
 

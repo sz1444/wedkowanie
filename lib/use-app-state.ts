@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { getFishingInfo, getLevelFromXp } from '@/lib/fishing-data';
@@ -48,13 +48,16 @@ export function useAppState(): AppState {
   const [loading, setLoading] = useState(true);
 
   const fishingInfo = useMemo(() => getFishingInfo(), []);
+  const isMounted = useRef(false);
+  useEffect(() => { isMounted.current = true; return () => { isMounted.current = false; }; }, []);
 
   const fetchCatches = useCallback(async (uid?: string) => {
     try {
       const uidParam = uid ? `?uid=${uid}` : '';
       const res = await fetch(`/api/catches${uidParam}`);
-      if (!res.ok) return;
+      if (!res.ok || !isMounted.current) return;
       const data = await res.json();
+      if (!isMounted.current) return;
       const list: FishCatch[] = data.catches ?? [];
       setCatches(list.sort((a, b) => b.data - a.data));
       setXpByUid(data.xpByUid ?? {});
@@ -65,8 +68,9 @@ export function useAppState(): AppState {
   const fetchNick = useCallback(async (uid: string) => {
     try {
       const res = await fetch(`/api/user?uid=${uid}`);
-      if (!res.ok) return;
+      if (!res.ok || !isMounted.current) return;
       const data = await res.json();
+      if (!isMounted.current) return;
       setNick(data.nick ?? null);
       setUserRoles(data.roles ?? []);
       setBonusXp(data.bonusXp ?? 0);
