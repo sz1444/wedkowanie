@@ -1,27 +1,39 @@
 'use client';
 
+import { useState } from 'react';
 import { Camera, Award } from 'lucide-react';
-import { getMedalForCatch, MEDAL_COLORS, FISH_DEX } from '@/lib/fishing-data';
+import { getMedalForCatch, getMedalForCatchCm, MEDAL_COLORS, FISH_DEX } from '@/lib/fishing-data';
 import type { FishCatch } from '@/lib/fishing-data';
 import Image from 'next/image';
+import RecordCatchModal from '@/components/ui/RecordCatchModal';
 
 interface ProfileGalleryProps {
   myCatches: FishCatch[];
 }
 
+function buildRecords(verified: FishCatch[], mode: 'kg' | 'cm'): FishCatch[] {
+  const map = new Map<string, FishCatch>();
+  for (const c of [...verified].sort((a, b) => b.data - a.data)) {
+    const prev = map.get(c.ryba);
+    const val = mode === 'kg' ? (c.waga ?? 0) : (c.dlugoscCm ?? 0);
+    const prevVal = mode === 'kg' ? (prev?.waga ?? 0) : (prev?.dlugoscCm ?? 0);
+    if (!prev || val > prevVal) map.set(c.ryba, c);
+  }
+  return Array.from(map.values()).filter((c) =>
+    mode === 'kg' ? (c.waga ?? 0) > 0 : (c.dlugoscCm ?? 0) > 0
+  );
+}
+
 export default function ProfileGallery({ myCatches }: ProfileGalleryProps) {
+  const [tab, setTab] = useState<'kg' | 'cm'>('kg');
+  const [selected, setSelected] = useState<{ catch_: FishCatch; medal: string } | null>(null);
   const verified = myCatches.filter((c) => c.aiVerified === true);
   const pending = myCatches.filter((c) => c.aiVerified !== true);
-
-  const myRecordByCatch = new Map<string, FishCatch>();
-  for (const c of [...verified].sort((a, b) => b.data - a.data)) {
-    const prev = myRecordByCatch.get(c.ryba);
-    if (!prev || (c.waga ?? 0) > (prev.waga ?? 0)) myRecordByCatch.set(c.ryba, c);
-  }
-  const records = Array.from(myRecordByCatch.values());
+  const records = buildRecords(verified, tab);
 
   return (
     <div className="space-y-8">
+      {selected && <RecordCatchModal catch_={selected.catch_} medal={selected.medal} onClose={() => setSelected(null)} />}
       {pending.length > 0 && (
         <div className="space-y-3">
           <div className="flex items-center justify-between">
@@ -51,11 +63,24 @@ export default function ProfileGallery({ myCatches }: ProfileGalleryProps) {
       )}
 
       <div className="space-y-3">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-yellow-400 rounded-xl"><Award size={18} className="text-slate-900" /></div>
-          <div>
-            <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest">Rekordy</h3>
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Galeria Sław</p>
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 bg-yellow-400 rounded-xl"><Award size={18} className="text-slate-900" /></div>
+            <div>
+              <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest">Rekordy</h3>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Galeria Sław</p>
+            </div>
+          </div>
+          <div className="flex bg-slate-100 rounded-xl p-0.5 gap-0.5">
+            {(['kg', 'cm'] as const).map((t) => (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                className={`text-[11px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg transition-colors ${tab === t ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+              >
+                {t}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -66,11 +91,16 @@ export default function ProfileGallery({ myCatches }: ProfileGalleryProps) {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {records.map((c) => {
-              const medal = getMedalForCatch(c.ryba, c.waga ?? 0);
+              const medal = tab === 'kg'
+                ? getMedalForCatch(c.ryba, c.waga ?? 0)
+                : getMedalForCatchCm(c.ryba, c.dlugoscCm ?? 0);
               const mc = MEDAL_COLORS[medal];
               const fishDef = FISH_DEX.find((f) => f.nazwa === c.ryba);
+              const recordValue = tab === 'kg'
+                ? `${c.waga} kg`
+                : `${c.dlugoscCm} cm`;
               return (
-                <div key={c.id} className="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col gap-4">
+                <div key={`${c.id}-${tab}`} className="bg-white rounded-2xl border border-slate-100 p-4 flex flex-col gap-4 cursor-pointer hover:border-slate-300 hover:shadow-sm transition-all" onClick={() => setSelected({ catch_: c, medal })}>
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-3">
                       <div className="w-14 h-14 relative rounded-xl overflow-hidden shrink-0" style={{ backgroundColor: fishDef ? `${fishDef.color}18` : '#f1f5f9' }}>
@@ -89,7 +119,7 @@ export default function ProfileGallery({ myCatches }: ProfileGalleryProps) {
 
                   <div className="grid grid-cols-3 gap-1.5">
                     {[
-                      { label: 'Rekord', value: `${c.waga} kg`, color: 'text-emerald-800' },
+                      { label: 'Rekord', value: recordValue, color: 'text-emerald-800' },
                       { label: 'XP', value: String(c.xp ?? 0), color: 'text-slate-800' },
                       { label: 'Data', value: new Date(c.data).toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit' }), color: 'text-slate-800' },
                     ].map(({ label, value, color }) => (

@@ -40,14 +40,14 @@ export default function RankingsPage() {
           <input type="text" placeholder="Filtruj gatunek..." value={speciesSearch} onChange={(e) => setSpeciesSearch(e.target.value)}
             className="bg-transparent text-sm font-bold text-slate-700 placeholder:font-normal placeholder:text-slate-300 outline-none w-full" />
         </div>
-        <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto">
+        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
           <button onClick={() => setActiveTab('xp')}
-            className={`flex items-center gap-1 px-3 py-2 rounded-xl text-[10px] font-black uppercase tracking-wide transition-all border ${activeTab === 'xp' ? 'bg-slate-900 text-white border-slate-900' : 'bg-white border-slate-100 text-slate-500 hover:bg-slate-50'}`}>
+            className={`shrink-0 flex items-center gap-1 px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-widest transition-all ${activeTab === 'xp' ? 'bg-slate-900 text-white' : 'bg-white border border-slate-100 text-slate-500 hover:border-slate-300'}`}>
             <Zap size={10} /> Ogólny
           </button>
           {filteredSpecies.map((r) => (
             <button key={r} onClick={() => setActiveTab(r)}
-              className={`flex items-center gap-1 px-3 py-2 rounded-xl text-[10px] font-black uppercase tracking-wide transition-all border ${activeTab === r ? 'bg-slate-900 text-white border-slate-900' : 'bg-white border-slate-100 text-slate-500 hover:bg-slate-50'}`}>
+              className={`shrink-0 flex items-center gap-1 px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-widest transition-all ${activeTab === r ? 'bg-slate-900 text-white' : 'bg-white border border-slate-100 text-slate-500 hover:border-slate-300'}`}>
               <Fish size={9} /> {r}
             </button>
           ))}

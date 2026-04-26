@@ -49,15 +49,13 @@ export default function XpRanking() {
           <input type="text" placeholder="Szukaj gracza..." value={search} onChange={(e) => setSearch(e.target.value)}
             className="bg-transparent text-sm font-bold text-slate-700 placeholder:font-normal placeholder:text-slate-300 outline-none w-full" />
         </div>
-        <div className="flex rounded-xl overflow-hidden border border-slate-100 bg-white shrink-0">
-          <button onClick={() => setUnit('kg')}
-            className={`px-3 py-4 text-[10px] font-black uppercase tracking-widest transition-all ${unit === 'kg' ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-50'}`}>
-            kg
-          </button>
-          <button onClick={() => setUnit('cm')}
-            className={`px-3 py-4 text-[10px] font-black uppercase tracking-widest transition-all ${unit === 'cm' ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-50'}`}>
-            cm
-          </button>
+        <div className="flex bg-slate-100 rounded-xl p-0.5 gap-0.5 shrink-0">
+          {(['kg', 'cm'] as const).map((u) => (
+            <button key={u} onClick={() => setUnit(u)}
+              className={`text-[11px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg transition-colors ${unit === u ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}>
+              {u}
+            </button>
+          ))}
         </div>
         <button onClick={() => setSortDir((d) => d === 'desc' ? 'asc' : 'desc')}
           className="flex items-center gap-1 px-3 py-4 rounded-xl bg-white border border-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500 hover:bg-slate-50 transition-all">

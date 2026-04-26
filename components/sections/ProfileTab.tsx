@@ -42,6 +42,11 @@ export default function ProfileTab({ user, analytics, onFishDex, nick, onNickSav
   const [draft, setDraft] = useState('');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [ranksExpanded, setRanksExpanded] = useState(false);
+
+  const RANKS_LIMIT = 5;
+  const visibleRanks = ranksExpanded ? fishRanks : fishRanks.slice(0, RANKS_LIMIT);
+  const hasMore = fishRanks.length > RANKS_LIMIT;
 
   const startEdit = () => { setDraft(nick ?? ''); setError(''); setEditing(true); };
   const cancelEdit = () => { setEditing(false); setError(''); };
@@ -108,11 +113,19 @@ export default function ProfileTab({ user, analytics, onFishDex, nick, onNickSav
           </div>
           {fishRanks.length > 0 && (
             <div className="mt-3 flex items-center gap-1.5 flex-wrap">
-              {fishRanks.map(({ rank, ryba }) => (
+              {visibleRanks.map(({ rank, ryba }) => (
                 <span key={ryba} className={`text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-lg border ${rank.color.bg} ${rank.color.text} ${rank.color.border}`}>
                   {getFishRankTitle(rank.title, ryba)}
                 </span>
               ))}
+              {hasMore && (
+                <button
+                  onClick={() => setRanksExpanded((v) => !v)}
+                  className="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-lg border border-slate-200 bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors"
+                >
+                  {ranksExpanded ? 'Zwiń' : `+${fishRanks.length - RANKS_LIMIT}`}
+                </button>
+              )}
             </div>
           )}
         </div>
