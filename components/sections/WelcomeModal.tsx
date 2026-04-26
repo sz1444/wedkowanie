@@ -75,11 +75,8 @@ export default function WelcomeModal({ onClose }: WelcomeModalProps) {
             onClick={onClose}
             className="w-full py-4 bg-emerald-800 text-white font-black text-sm uppercase tracking-widest rounded-2xl hover:bg-emerald-700 active:scale-[0.98] transition-all shadow-lg shadow-emerald-900/20"
           >
-            Zacznij wypełniać Atlas
+            Wszystko jasne
           </button>
-          <p className="text-center text-[10px] font-bold text-slate-300 uppercase tracking-widest mt-3">
-            Twój pierwszy połów czeka
-          </p>
         </div>
 
       </div>

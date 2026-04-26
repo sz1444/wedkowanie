@@ -32,7 +32,6 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const handleCloseWelcome = () => {
     if (state.user) localStorage.setItem(`fishrank_welcomed_${state.user.uid}`, '1');
     setShowWelcome(false);
-    router.push('/add');
   };
 
   if (state.loading) return <LoadingSpinner />;
