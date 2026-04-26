@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Plus } from 'lucide-react';
 import { AppContext } from '@/lib/app-context';
@@ -11,11 +11,29 @@ import AppSidebar from '@/components/sections/AppSidebar';
 import MobileHeader from '@/components/sections/MobileHeader';
 import MobileNav from '@/components/sections/MobileNav';
 import UserCatchesModal from '@/components/sections/UserCatchesModal';
+import WelcomeModal from '@/components/sections/WelcomeModal';
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const state = useAppState();
   const [viewingUserId, setViewingUserId] = useState<string | null>(null);
+  const [showWelcome, setShowWelcome] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return false;
+  });
   const router = useRouter();
+
+  useEffect(() => {
+    if (!state.user || state.loading) return;
+    const key = `fishrank_welcomed_${state.user.uid}`;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (!localStorage.getItem(key)) setShowWelcome(true);
+  }, [state.user, state.loading]);
+
+  const handleCloseWelcome = () => {
+    if (state.user) localStorage.setItem(`fishrank_welcomed_${state.user.uid}`, '1');
+    setShowWelcome(false);
+    router.push('/add');
+  };
 
   if (state.loading) return <LoadingSpinner />;
   if (!state.user) return <AuthScreen />;
@@ -54,6 +72,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         >
           <Plus size={28} strokeWidth={2.5} />
         </button>
+        {showWelcome && <WelcomeModal onClose={handleCloseWelcome} />}
         {viewingUserData && (
           <UserCatchesModal
             nick={viewingUserData.nick}
