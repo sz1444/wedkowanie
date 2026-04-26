@@ -14,7 +14,7 @@ interface AllCatchesViewProps {
 export default function AllCatchesView({ myCatches, onBack }: AllCatchesViewProps) {
   const sorted = useMemo(() => [...myCatches].sort((a, b) => b.data - a.data), [myCatches]);
   const sumaWagi = sorted.reduce((acc, c) => acc + (c.waga || 0), 0);
-  const najciezszaRyba = sorted.length > 0 ? sorted.reduce((p, c) => (p.waga > c.waga ? p : c)) : null;
+  const najciezszaRyba = sorted.length > 0 ? sorted.reduce((p, c) => ((p.waga ?? 0) > (c.waga ?? 0) ? p : c)) : null;
   const recordId = najciezszaRyba?.id;
 
   return (
@@ -32,7 +32,7 @@ export default function AllCatchesView({ myCatches, onBack }: AllCatchesViewProp
         {[
           { label: 'Łączna waga', value: sumaWagi ? `${sumaWagi.toFixed(2)} kg` : '—' },
           { label: 'Sztuk', value: String(sorted.length) },
-          { label: 'Rekord', value: najciezszaRyba ? `${najciezszaRyba.waga.toFixed(2)} kg` : '—' },
+          { label: 'Rekord', value: najciezszaRyba?.waga ? `${najciezszaRyba.waga.toFixed(2)} kg` : '—' },
         ].map(({ label, value }) => (
           <div key={label} className="bg-white rounded-xl p-5 border border-slate-100">
             <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-1">{label}</p>
