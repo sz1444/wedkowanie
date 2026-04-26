@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useRef, useCallback } from 'react';
-import { Home, FishingHook, Trophy, Plus, User } from 'lucide-react';
+import { FishingHook, Trophy, Plus } from 'lucide-react';
 
 const LEFT_NAV = [
   { href: '/fishdex', icon: FishingHook, label: 'Rejestr' },
