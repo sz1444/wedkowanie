@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: 'FishRank – Universal Pro',
     short_name: 'FishRank',
     description: 'Aplikacja wędkarska: raporty połowów, ranking, ekspert AI',
-    start_url: '/feed',
+    start_url: '/fishdex',
     display: 'standalone',
     background_color: '#f8fafc',
     theme_color: '#14532d',

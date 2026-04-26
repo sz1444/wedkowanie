@@ -1,14 +1,13 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { Home, User as UserIcon, PlusCircle, FishingHook, ShieldCheck, Trophy } from 'lucide-react';
+import { User as UserIcon, PlusCircle, FishingHook, ShieldCheck, Trophy } from 'lucide-react';
 import NickBadge, { TierBadge } from '@/components/ui/NickBadge';
 import RoleBadge from '@/components/ui/RoleBadge';
 import { useApp } from '@/lib/app-context';
 import Image from 'next/image';
 
 const NAV_ITEMS = [
-  { href: '/feed',        icon: Home,       label: 'Home' },
   { href: '/fishdex',     icon: FishingHook,   label: 'Rejestr Połowów' },
   { href: '/rankings/xp', icon: Trophy,     label: 'Ranking' },
   { href: '/add',         icon: PlusCircle, label: 'Dodaj Połów' },

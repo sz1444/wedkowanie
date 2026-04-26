@@ -14,7 +14,7 @@ export default function AddPage() {
     <AddCatchTab
       user={user}
       nick={nick}
-      onSuccess={() => { fetchCatches(user.uid); router.push('/feed'); }}
+      onSuccess={() => { fetchCatches(user.uid); router.push('/fishdex'); }}
     />
   );
 }
