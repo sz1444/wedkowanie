@@ -16,7 +16,7 @@ export default function ProfileGallery({ myCatches }: ProfileGalleryProps) {
   const myRecordByCatch = new Map<string, FishCatch>();
   for (const c of [...verified].sort((a, b) => b.data - a.data)) {
     const prev = myRecordByCatch.get(c.ryba);
-    if (!prev || c.waga > prev.waga) myRecordByCatch.set(c.ryba, c);
+    if (!prev || (c.waga ?? 0) > (prev.waga ?? 0)) myRecordByCatch.set(c.ryba, c);
   }
   const records = Array.from(myRecordByCatch.values());
 
@@ -66,7 +66,7 @@ export default function ProfileGallery({ myCatches }: ProfileGalleryProps) {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {records.map((c) => {
-              const medal = getMedalForCatch(c.ryba, c.waga);
+              const medal = getMedalForCatch(c.ryba, c.waga ?? 0);
               const mc = MEDAL_COLORS[medal];
               const fishDef = FISH_DEX.find((f) => f.nazwa === c.ryba);
               return (

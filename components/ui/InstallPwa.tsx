@@ -16,7 +16,13 @@ function isInStandaloneMode() {
 }
 
 export default function InstallPwa() {
-  const [mode, setMode] = useState<Mode>(null);
+  const [mode, setMode] = useState<Mode>(() => {
+    if (typeof window === 'undefined') return null;
+    if (isInStandaloneMode()) return null;
+    if (sessionStorage.getItem('pwa-dismissed')) return null;
+    if (isIos()) return 'ios';
+    return null;
+  });
   const [prompt, setPrompt] = useState<Event | null>(null);
   const [dismissed, setDismissed] = useState(false);
 
@@ -30,8 +36,6 @@ export default function InstallPwa() {
       setMode('android');
     };
     window.addEventListener('beforeinstallprompt', handler);
-
-    if (isIos()) setMode('ios');
 
     return () => window.removeEventListener('beforeinstallprompt', handler);
   }, []);
@@ -74,7 +78,7 @@ export default function InstallPwa() {
           {mode === 'ios' && (
             <>
               <p className="text-[11px] text-slate-400 mt-0.5">
-                Dotknij <Share size={11} className="inline -mt-0.5" /> w Safari, a następnie <strong className="text-white">„Dodaj do ekranu głównego"</strong>.
+                Dotknij <Share size={11} className="inline -mt-0.5" /> w Safari, a następnie <strong className="text-white">&bdquo;Dodaj do ekranu głównego&rdquo;</strong>.
               </p>
             </>
           )}
