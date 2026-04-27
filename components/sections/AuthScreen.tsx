@@ -60,7 +60,7 @@ export default function AuthScreen() {
       <div className="w-full max-w-md bg-white rounded-[3rem] p-12 shadow-2xl border border-slate-100">
         <div className="flex items-center space-x-3 mb-12">
           <div className="relative w-14 h-14 rounded-xl text-white">
-            <Image src="/logo.png" alt="FishRank Logo" fill className="object-contain" sizes="48px" />
+            <Image src="/logo.jpeg" alt="FishRank Logo" fill className="object-contain" sizes="48px" />
           </div>
           <h1 className="text-2xl font-black tracking-tighter text-slate-800 uppercase">
             Fish<span className="text-emerald-800">Rank</span>
