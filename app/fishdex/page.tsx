@@ -4,12 +4,15 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import FishDexTab from '@/components/sections/FishDexTab';
 import { useApp } from '@/lib/app-context';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 function FishDexContent() {
-  const { analytics } = useApp();
+  const { analytics, loading } = useApp();
   const router = useRouter();
   const searchParams = useSearchParams();
   const selectedSpecies = searchParams.get('species');
+
+  if (loading) return <LoadingSpinner />;
 
   return (
     <FishDexTab

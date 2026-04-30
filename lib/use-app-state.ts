@@ -46,6 +46,7 @@ export function useAppState(): AppState {
   const [xpByUid, setXpByUid] = useState<Record<string, number>>({});
   const [rolesByUid, setRolesByUid] = useState<Record<string, string[]>>({});
   const [loading, setLoading] = useState(true);
+  const [catchesLoading, setCatchesLoading] = useState(true);
 
   const fishingInfo = useMemo(() => getFishingInfo(), []);
   const isMounted = useRef(false);
@@ -62,7 +63,9 @@ export function useAppState(): AppState {
       setCatches(list.sort((a, b) => b.data - a.data));
       setXpByUid(data.xpByUid ?? {});
       setRolesByUid(data.rolesByUid ?? {});
-    } catch { /* ignore */ }
+    } catch { /* ignore */ } finally {
+      if (isMounted.current) setCatchesLoading(false);
+    }
   }, []);
 
   const fetchNick = useCallback(async (uid: string) => {
@@ -126,7 +129,7 @@ export function useAppState(): AppState {
       setUser(u);
       setLoading(false);
       if (u) fetchNick(u.uid);
-      else setNick(null);
+      else { setNick(null); setCatchesLoading(false); }
     });
     return unsubscribe;
   }, [fetchNick]);
@@ -179,7 +182,8 @@ export function useAppState(): AppState {
   const lvl = useMemo(() => getLevelFromXp(analytics.totalXp), [analytics.totalXp]);
 
   return {
-    user, nick, userRoles, bonusXp, catches, xpByUid, rolesByUid, loading,
+    user, nick, userRoles, bonusXp, catches, xpByUid, rolesByUid,
+    loading: loading || catchesLoading,
     fishingInfo, analytics, lvl,
     handleSignOut, handleReact, handleDeleteCatch, handleNickSave, fetchCatches,
   };

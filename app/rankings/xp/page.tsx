@@ -5,13 +5,14 @@ import { useApp } from '@/lib/app-context';
 import { LISTA_RYB } from '@/lib/fishing-data';
 import { Fish, Trophy, Zap } from 'lucide-react';
 import SectionHeader from '@/components/ui/SectionHeader';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import XpRanking from '@/components/sections/XpRanking';
 import SpeciesRanking from '@/components/sections/SpeciesRanking';
 
 type Tab = 'xp' | string;
 
 export default function RankingsPage() {
-  const { catches } = useApp();
+  const { catches, loading } = useApp();
   const [activeTab, setActiveTab] = useState<Tab>('xp');
   const [speciesSearch, setSpeciesSearch] = useState('');
 
@@ -23,6 +24,8 @@ export default function RankingsPage() {
   const filteredSpecies = speciesSearch.trim()
     ? allSpecies.filter((r) => r.toLowerCase().includes(speciesSearch.toLowerCase()))
     : allSpecies;
+
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div className="max-6xl mx-auto space-y-5">
