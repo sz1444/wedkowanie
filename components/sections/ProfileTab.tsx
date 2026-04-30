@@ -17,7 +17,7 @@ interface Analytics {
   best: number;
   totalXp: number;
   myCatches: FishCatch[];
-  speciesRecords: Record<string, { waga: number; autor: string; userId: string }>;
+  speciesRecords: Record<string, { waga?: number; dlugoscCm?: number; xp: number; autor: string; userId: string }>;
 }
 
 interface ProfileTabProps {

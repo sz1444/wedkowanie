@@ -14,6 +14,7 @@ function FishDexContent() {
   return (
     <FishDexTab
       myCatches={analytics.myCatches}
+      speciesRecords={analytics.speciesRecords}
       selectedSpecies={selectedSpecies}
       onSelectSpecies={(s) => router.push(`/fishdex?species=${encodeURIComponent(s)}`)}
       onBack={() => router.push('/fishdex')}

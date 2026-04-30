@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
-import { getFishingInfo, getLevelFromXp } from '@/lib/fishing-data';
+import { getFishingInfo, getLevelFromXp, getTotalXpForCatch } from '@/lib/fishing-data';
 import type { FishCatch, Reactions } from '@/lib/fishing-data';
 import type { User } from 'firebase/auth';
 
@@ -27,7 +27,7 @@ export interface AppState {
     best: number;
     totalXp: number;
     myCatches: FishCatch[];
-    speciesRecords: Record<string, { waga: number; autor: string; userId: string }>;
+    speciesRecords: Record<string, { waga?: number; dlugoscCm?: number; xp: number; autor: string; userId: string }>;
   };
   lvl: ReturnType<typeof getLevelFromXp>;
   handleSignOut: () => void;
@@ -146,15 +146,25 @@ export function useAppState(): AppState {
     const myCatches = catches.filter((c) => c.userId === user.uid);
     const verified = catches.filter((c) => c.aiVerified === true);
     const userBestWeights: Record<string, number> = {};
-    const records: Record<string, { waga: number; autor: string; userId: string }> = {};
+    const records: Record<string, { waga?: number; dlugoscCm?: number; xp: number; autor: string; userId: string }> = {};
 
     verified.forEach((c) => {
       const weight = parseFloat(String(c.waga)) || 0;
       if (!userBestWeights[c.userId] || weight > userBestWeights[c.userId]) {
         userBestWeights[c.userId] = weight;
       }
-      if (!records[c.ryba] || weight > records[c.ryba].waga) {
-        records[c.ryba] = { waga: weight, autor: c.autor, userId: c.userId };
+    });
+
+    catches.forEach((c) => {
+      const xp = getTotalXpForCatch(c.ryba, c.waga, c.dlugoscCm);
+      if (!records[c.ryba] || xp > records[c.ryba].xp) {
+        records[c.ryba] = {
+          waga: c.waga != null ? parseFloat(String(c.waga)) || undefined : undefined,
+          dlugoscCm: c.dlugoscCm ?? undefined,
+          xp,
+          autor: c.autor,
+          userId: c.userId,
+        };
       }
     });
 

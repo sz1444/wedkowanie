@@ -2,19 +2,21 @@
 
 import { useMemo } from 'react';
 import { Fish, ArrowLeft } from 'lucide-react';
-import { FISH_DEX, MEDAL_COLORS, type Medal } from '@/lib/fishing-data';
+import { FISH_DEX, MEDAL_COLORS, getTotalXpForCatch, type Medal } from '@/lib/fishing-data';
 import type { FishCatch } from '@/lib/fishing-data';
 import { getFishRankProgress, getFishRankTitle, getFishXpFromCatches } from '@/lib/fish-ranks';
 import CatchGrid from '@/components/ui/CatchGrid';
+import BestCatchCard from '@/components/ui/BestCatchCard';
 
 interface SpeciesDetailProps {
   species: string;
   myCatches: FishCatch[];
   dexState: Record<string, { waga: number; medal: Medal; count: number }>;
+  speciesRecords: Record<string, { waga?: number; dlugoscCm?: number; xp: number; autor: string; userId: string }>;
   onBack: () => void;
 }
 
-export default function SpeciesDetail({ species, myCatches, dexState, onBack }: SpeciesDetailProps) {
+export default function SpeciesDetail({ species, myCatches, dexState, speciesRecords, onBack }: SpeciesDetailProps) {
   const fishDef = FISH_DEX.find((f) => f.nazwa === species);
   const best = dexState[species] ?? null;
   const mc = best ? MEDAL_COLORS[best.medal] : null;
@@ -27,6 +29,19 @@ export default function SpeciesDetail({ species, myCatches, dexState, onBack }: 
   const rankProgress = getFishRankProgress(totalXp);
   const rankTitle = getFishRankTitle(rankProgress.rank.title, species);
   const recordId = speciesCatches[0]?.id;
+  const bestCatch = useMemo(() => {
+    return speciesCatches.reduce<FishCatch | null>((best, c) => {
+      const xp = getTotalXpForCatch(c.ryba, c.waga, c.dlugoscCm);
+      const bxp = best ? getTotalXpForCatch(best.ryba, best.waga, best.dlugoscCm) : 0;
+      return xp > bxp ? c : best;
+    }, null);
+  }, [speciesCatches]);
+  const globalRecord = speciesRecords[species] ?? null;
+  const myBestXp = useMemo(
+    () => speciesCatches.reduce((max, c) => Math.max(max, getTotalXpForCatch(c.ryba, c.waga, c.dlugoscCm)), 0),
+    [speciesCatches],
+  );
+  const globalAhead = globalRecord && globalRecord.xp > myBestXp;
 
   if (!fishDef) return null;
 
@@ -52,21 +67,34 @@ export default function SpeciesDetail({ species, myCatches, dexState, onBack }: 
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <div className="bg-white rounded-xl p-5 border border-slate-100 ">
-          <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-2">Rekord</p>
-          <div className="flex items-baseline gap-2 flex-wrap">
-            {best?.waga
-              ? <span className="text-xl font-black text-emerald-800">{best.waga} <span className="text-xs font-bold text-slate-400">kg</span></span>
-              : <span className="text-xl font-black text-slate-300">—</span>}
-            {(() => { const cm = speciesCatches.reduce((max, c) => Math.max(max, c.dlugoscCm ?? 0), 0); return cm > 0 ? <><span className="text-slate-300 font-bold">/</span><span className="text-xl font-black text-blue-700">{cm} <span className="text-xs font-bold text-slate-400">cm</span></span></> : null; })()}
+      <BestCatchCard catch={bestCatch} species={species} count={speciesCatches.length} />
+
+      {globalRecord && (
+        <div className={`rounded-xl p-4 border flex items-center gap-4 ${globalAhead ? 'bg-amber-50 border-amber-100' : 'bg-emerald-50 border-emerald-100'}`}>
+          <div className="flex-1 min-w-0">
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Rekord aplikacji</p>
+            <div className="flex items-baseline gap-1.5 flex-wrap">
+              {globalRecord.waga != null && <span className="text-xl font-black text-slate-800">{globalRecord.waga} <span className="text-xs font-bold text-slate-400">kg</span></span>}
+              {globalRecord.waga != null && globalRecord.dlugoscCm != null && <span className="text-xs font-bold text-slate-300">·</span>}
+              {globalRecord.dlugoscCm != null && <span className="text-xl font-black text-slate-800">{globalRecord.dlugoscCm} <span className="text-xs font-bold text-slate-400">cm</span></span>}
+              <span className="text-xs font-bold text-slate-400 truncate">· {globalRecord.autor}</span>
+            </div>
+          </div>
+          <div className="text-right shrink-0">
+            {globalAhead ? (
+              <>
+                <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest">Pobij rekord!</p>
+                <p className="text-2xl leading-none">🎯</p>
+              </>
+            ) : (
+              <>
+                <p className="text-[10px] font-black text-emerald-700 uppercase tracking-widest">Trzymasz rekord!</p>
+                <p className="text-2xl leading-none">🏆</p>
+              </>
+            )}
           </div>
         </div>
-        <div className="bg-white rounded-xl p-5 border border-slate-100">
-          <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-1">Sztuk</p>
-          <p className="text-xl font-black text-slate-800">{speciesCatches.length}</p>
-        </div>
-      </div>
+      )}
 
       <div className={`rounded-xl p-5 border space-y-3 ${rankProgress.rank.color.bg} ${rankProgress.rank.color.border}`}>
         <div className="flex items-center justify-between">

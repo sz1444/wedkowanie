@@ -7,7 +7,7 @@ import CTAButton from '@/components/ui/CTAButton';
 import AllCatchesView from '@/components/sections/AllCatchesView';
 import SpeciesDetail from '@/components/sections/SpeciesDetail';
 import type { FishCatch, FishKategoria } from '@/lib/fishing-data';
-import { FISH_DEX, RARENESS_COLORS, RARENESS_LABELS, getMedalForCatch, type Medal } from '@/lib/fishing-data';
+import { FISH_DEX, RARENESS_LABELS, getMedalForCatch, type Medal } from '@/lib/fishing-data';
 import { getFishRank, getFishXpFromCatches, getFishRankProgress } from '@/lib/fish-ranks';
 import Image from 'next/image';
 
@@ -26,13 +26,14 @@ const FILTERS: { id: Filter; label: string }[] = [
 
 interface FishDexTabProps {
   myCatches: FishCatch[];
+  speciesRecords: Record<string, { waga?: number; dlugoscCm?: number; xp: number; autor: string; userId: string }>;
   selectedSpecies: string | null;
   onSelectSpecies: (species: string) => void;
   onBack: () => void;
   onAddCatch: () => void;
 }
 
-export default function FishDexTab({ myCatches, selectedSpecies, onSelectSpecies, onBack }: FishDexTabProps) {
+export default function FishDexTab({ myCatches, speciesRecords, selectedSpecies, onSelectSpecies, onBack }: FishDexTabProps) {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState<Filter>('all');
 
@@ -54,7 +55,7 @@ export default function FishDexTab({ myCatches, selectedSpecies, onSelectSpecies
   }, [myCatches]);
 
   if (selectedSpecies === ALL_VIEW) return <AllCatchesView myCatches={myCatches} onBack={onBack} />;
-  if (selectedSpecies) return <SpeciesDetail species={selectedSpecies} myCatches={myCatches} dexState={dexState} onBack={onBack} />;
+  if (selectedSpecies) return <SpeciesDetail species={selectedSpecies} myCatches={myCatches} dexState={dexState} speciesRecords={speciesRecords} onBack={onBack} />;
 
   const discovered = Object.keys(dexState).length;
   const total = FISH_DEX.length;

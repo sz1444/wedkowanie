@@ -16,10 +16,7 @@ import WelcomeModal from '@/components/sections/WelcomeModal';
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const state = useAppState();
   const [viewingUserId, setViewingUserId] = useState<string | null>(null);
-  const [showWelcome, setShowWelcome] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    return false;
-  });
+  const [showWelcome, setShowWelcome] = useState(false);
   const router = useRouter();
 
   useEffect(() => {

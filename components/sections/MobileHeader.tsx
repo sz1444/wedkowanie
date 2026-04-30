@@ -1,12 +1,12 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { User as UserIcon } from 'lucide-react';
+import { User as UserIcon, LogOut } from 'lucide-react';
 import { useApp } from '@/lib/app-context';
 import Image from 'next/image';
 
 export default function MobileHeader() {
-  const { analytics, lvl } = useApp();
+  const { analytics, lvl, handleSignOut } = useApp();
   const router = useRouter();
 
   return (
@@ -41,6 +41,13 @@ export default function MobileHeader() {
           className="p-2 rounded-xl bg-slate-50 border border-slate-100 text-slate-500 hover:bg-emerald-50 hover:text-emerald-800 transition-colors"
         >
           <UserIcon size={18} />
+        </button>
+        <button
+          onClick={handleSignOut}
+          className="p-2 rounded-xl bg-slate-50 border border-slate-100 text-slate-400 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors"
+          aria-label="Wyloguj się"
+        >
+          <LogOut size={18} />
         </button>
       </div>
     </header>
