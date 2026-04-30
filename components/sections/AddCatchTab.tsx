@@ -7,6 +7,7 @@ import { Camera } from 'lucide-react';
 import SectionHeader from '@/components/ui/SectionHeader';
 import AddCatchStep1 from '@/components/sections/AddCatchStep1';
 import AddCatchForm from '@/components/sections/AddCatchForm';
+import { compressImage } from '@/lib/compress-image';
 
 async function computePhotoHash(dataUrl: string): Promise<string> {
   return new Promise((resolve) => {
@@ -52,9 +53,11 @@ export default function AddCatchTab({ user, nick, onSuccess }: AddCatchTabProps)
     const pending = sessionStorage.getItem('pendingPhoto');
     if (pending) {
       sessionStorage.removeItem('pendingPhoto');
-      void computePhotoHash(pending).then((hash) => {
-        setPhotoDataUrl(pending); setPhotoHash(hash); setStep(2);
-      });
+      void (async () => {
+        const compressed = await compressImage(pending);
+        const hash = await computePhotoHash(compressed);
+        setPhotoDataUrl(compressed); setPhotoHash(hash); setStep(2);
+      })();
       return;
     }
     if (!cameraOpened.current) { cameraOpened.current = true; fileInputRef.current?.click(); }
@@ -72,13 +75,13 @@ export default function AddCatchTab({ user, nick, onSuccess }: AddCatchTabProps)
     const file = e.target.files?.[0];
     if (!file) return;
     if (!file.type.startsWith('image/')) { setFormError('Plik musi być obrazem.'); return; }
-    if (file.size > 4 * 1024 * 1024) { setFormError('Zdjęcie nie może być większe niż 4 MB.'); return; }
     setFormError('');
     const reader = new FileReader();
     reader.onload = async (ev) => {
       const dataUrl = ev.target?.result as string;
-      setPhotoDataUrl(dataUrl);
-      setPhotoHash(await computePhotoHash(dataUrl));
+      const compressed = await compressImage(dataUrl);
+      setPhotoDataUrl(compressed);
+      setPhotoHash(await computePhotoHash(compressed));
       setStep(2);
     };
     reader.readAsDataURL(file);

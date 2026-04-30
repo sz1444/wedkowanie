@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { useRef, useCallback } from 'react';
 import { FishingHook, Trophy, Plus } from 'lucide-react';
+import { compressImage } from '@/lib/compress-image';
 
 const LEFT_NAV = [
   { href: '/fishdex', icon: FishingHook, label: 'Rejestr' },
@@ -21,9 +22,10 @@ export default function MobileNav() {
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = (ev) => {
+    reader.onload = async (ev) => {
       const dataUrl = ev.target?.result as string;
-      sessionStorage.setItem('pendingPhoto', dataUrl);
+      const compressed = await compressImage(dataUrl);
+      try { sessionStorage.setItem('pendingPhoto', compressed); } catch { /* storage full, skip */ }
       router.push('/add');
     };
     reader.readAsDataURL(file);
